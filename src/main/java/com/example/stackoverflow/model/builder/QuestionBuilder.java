@@ -1,9 +1,14 @@
-package com.example.stackoverflow.model;
+package com.example.stackoverflow.model.builder;
 
 import com.example.stackoverflow.common.Utils;
+import com.example.stackoverflow.model.Account;
+import com.example.stackoverflow.model.Bounty;
+import com.example.stackoverflow.model.StatusOfQuestion;
+import com.example.stackoverflow.model.entity.Question;
 
 import java.sql.Timestamp;
 
+// Nên merge với entity
 public class QuestionBuilder {
     private String title;
     private String description;

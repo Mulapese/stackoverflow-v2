@@ -2,9 +2,9 @@ package com.example.stackoverflow.service.serviceImp;
 
 import com.example.stackoverflow.common.ErrorMessage;
 import com.example.stackoverflow.common.Utils;
-import com.example.stackoverflow.model.Question;
-import com.example.stackoverflow.model.QuestionBuilder;
 import com.example.stackoverflow.model.StatusOfQuestion;
+import com.example.stackoverflow.model.builder.QuestionBuilder;
+import com.example.stackoverflow.model.entity.Question;
 import com.example.stackoverflow.repository.QuestionRepository;
 import com.example.stackoverflow.repository.StatusOfQuestionRepository;
 import com.example.stackoverflow.service.serviceInterface.CRUDService;

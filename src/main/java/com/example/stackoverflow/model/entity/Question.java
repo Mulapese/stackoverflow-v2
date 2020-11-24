@@ -1,5 +1,6 @@
-package com.example.stackoverflow.model;
+package com.example.stackoverflow.model.entity;
 
+import com.example.stackoverflow.model.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,11 @@ import java.util.Collection;
 @NoArgsConstructor
 @Table(name = "question", schema = "public", catalog = "stack3")
 public class Question {
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
+    private Account accountByAccountId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,16 +72,6 @@ public class Question {
     @JoinColumn(name = "bounty_id", referencedColumnName = "bounty_id")
     private Bounty bountyByBountyId;
 
-    //    @JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
-    private Account accountByAccountId;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "status_of_question_id", referencedColumnName = "status_of_question_id")
-    private StatusOfQuestion statusOfQuestionByStatusOfQuestionId;
-
     public Question(String title, String description, Integer viewCount, Integer voteCloseCount,
                     Integer voteDeleteCount, Integer flagCount, Timestamp createdTime, Timestamp updatedTime,
                     Bounty bountyByBountyId, Account accountByAccountId, StatusOfQuestion statusOfQuestionByStatusOfQuestionId) {
@@ -92,25 +88,9 @@ public class Question {
         this.statusOfQuestionByStatusOfQuestionId = statusOfQuestionByStatusOfQuestionId;
     }
 
-//    public static class QuestionBuilder {
-//        private int questionId;
-//        private String title;
-//        private String description;
-//        private Integer viewCount;
-//        private Integer voteCloseCount;
-//        private Integer voteDeleteCount;
-//        private Integer flagCount;
-//        private Timestamp createdTime;
-//        private Timestamp updatedTime;
-//
-//        public QuestionBuilder(String title, String description) {
-//            this.title = title;
-//            this.description = description;
-//        }
-//
-//        public QuestionBuilder viewCount(int viewCount) {
-//            this.viewCount = viewCount;
-//            return this;
-//        }
-//    }
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "status_of_question_id", referencedColumnName = "status_of_question_id")
+    private StatusOfQuestion statusOfQuestionByStatusOfQuestionId;
+
 }

@@ -9,7 +9,7 @@
         <class>com.example.stackoverflow.model.Badge</class>
         <class>com.example.stackoverflow.model.Bounty</class>
         <class>com.example.stackoverflow.model.Comment</class>
-        <class>com.example.stackoverflow.model.Question</class>
+        <class>com.example.stackoverflow.model.entity.Question</class>
         <class>com.example.stackoverflow.model.QuestionTag</class>
         <class>com.example.stackoverflow.model.Role</class>
         <class>com.example.stackoverflow.model.RoleUrl</class>

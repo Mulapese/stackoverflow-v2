@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 @Data
 @Entity
@@ -56,17 +55,17 @@ public class Account {
     @JoinColumn(name = "status_of_account_id", referencedColumnName = "status_of_account_id")
     private StatusOfAccount statusOfAccountByStatusOfAccountId;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "accountByAccountId")
-    private Collection<Answer> answersByAccountId;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "accountByAccountId")
-    private Collection<Comment> commentsByAccountId;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "accountByAccountId")
-    private Collection<Question> questionsByAccountId;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "accountByAccountId")
+//    private Collection<Answer> answersByAccountId;
+//
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "accountByAccountId")
+//    private Collection<Comment> commentsByAccountId;
+//
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "accountByAccountId")
+//    private Collection<Question> questionsByAccountId;
 
     @Override
     public String toString() {

@@ -3,7 +3,7 @@ package com.example.stackoverflow.controller;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
 import com.example.stackoverflow.model.Account;
 import com.example.stackoverflow.model.Answer;
-import com.example.stackoverflow.model.Question;
+import com.example.stackoverflow.model.entity.Question;
 import com.example.stackoverflow.service.serviceImp.AccountServiceImpl;
 import com.example.stackoverflow.service.serviceImp.AnswerServiceImpl;
 import com.example.stackoverflow.service.serviceImp.QuestionServiceImpl;

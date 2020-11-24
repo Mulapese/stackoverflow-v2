@@ -4,7 +4,7 @@ import com.example.stackoverflow.common.ErrorMessage;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
 import com.example.stackoverflow.jwt.JwtTokenUtil;
 import com.example.stackoverflow.model.Account;
-import com.example.stackoverflow.model.Question;
+import com.example.stackoverflow.model.entity.Question;
 import com.example.stackoverflow.service.serviceImp.AccountServiceImpl;
 import com.example.stackoverflow.service.serviceImp.QuestionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +57,7 @@ public class QuestionController {
 
         Question entity = service.insert(question);
 
+        // Ko bao h null
         if (entity == null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }

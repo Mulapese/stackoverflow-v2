@@ -1,5 +1,6 @@
 package com.example.stackoverflow.model;
 
+import com.example.stackoverflow.model.entity.Question;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
