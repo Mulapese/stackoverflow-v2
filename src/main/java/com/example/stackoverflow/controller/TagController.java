@@ -1,7 +1,7 @@
 package com.example.stackoverflow.controller;
 
-import com.example.stackoverflow.model.Account;
-import com.example.stackoverflow.service.serviceImp.AccountServiceImpl;
+import com.example.stackoverflow.model.Tag;
+import com.example.stackoverflow.service.serviceImp.TagServiceImplt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/accounts")
-public class AccountController {
+@RequestMapping("/api/tags")
+public class TagController {
     @Autowired
-    private AccountServiceImpl service;
+    private TagServiceImplt service;
 
     @GetMapping
-    public ResponseEntity<List<Account>> getAccounts() {
-        List<Account> entities = service.findAll();
+    public ResponseEntity<List<Tag>> getTags() {
+        List<Tag> entities = service.findAll();
 
         if (entities.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -29,8 +29,8 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Account>> getAccountById(@PathVariable("id") String id) {
-        Optional<Account> entity = service.findById(id);
+    public ResponseEntity<Optional<Tag>> getTagById(@PathVariable("id") String id) {
+        Optional<Tag> entity = service.findById(id);
 
         if (entity.isPresent()) {
             return new ResponseEntity<>(entity, HttpStatus.OK);
@@ -40,8 +40,8 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<Account> addAccount(@RequestBody Account accountEntity) {
-        Account entity = service.insert(accountEntity);
+    public ResponseEntity<Tag> addTag(@RequestBody Tag tag) {
+        Tag entity = service.insert(tag);
 
         if (entity == null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -51,8 +51,8 @@ public class AccountController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Account> updateAccount(@PathVariable("id") String id, @Valid @RequestBody Account accountEntity) {
-        Account entity = service.update(id, accountEntity);
+    public ResponseEntity<Tag> updateTag(@PathVariable("id") String id, @Valid @RequestBody Tag tag) {
+        Tag entity = service.update(id, tag);
 
         if (entity == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -62,8 +62,8 @@ public class AccountController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Optional<Account>> deleteAccount(@PathVariable("id") String id) {
-        Optional<Account> entity = service.delete(id);
+    public ResponseEntity<Optional<Tag>> deleteTag(@PathVariable("id") String id) {
+        Optional<Tag> entity = service.delete(id);
 
         if (entity.isPresent()) {
             return new ResponseEntity<>(entity, HttpStatus.OK);
@@ -71,5 +71,4 @@ public class AccountController {
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
 }

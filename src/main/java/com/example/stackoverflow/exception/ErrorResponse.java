@@ -11,5 +11,5 @@ import java.util.List;
 public class ErrorResponse {
     private Date timestamp;
     private List<String> message;
-    private String details;
+    private String uri;
 }

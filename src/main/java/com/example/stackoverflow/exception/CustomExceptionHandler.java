@@ -1,9 +1,16 @@
 package com.example.stackoverflow.exception;
 
+import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
+import com.example.stackoverflow.exception.exceptionType.WrongHeaderInfoException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -11,10 +18,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @ControllerAdvice
+@RestController
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RecordNotFoundException.class)
@@ -29,23 +35,41 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(InvalidFieldException.class)
-    public final ResponseEntity<ErrorResponse> handleInvalidFieldExceptions(Exception ex, WebRequest request) {
-        ErrorResponse errorDetails = new ErrorResponse(new Date(), Arrays.asList(ex.getMessage()), request.getDescription(false));
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+        List<String> allMatches = new ArrayList<>();
+
+        List<ObjectError> objectErrors = ex.getBindingResult().getAllErrors();
+        for (ObjectError error : objectErrors) {
+            System.out.println(error.getDefaultMessage());
+            allMatches.add(error.getDefaultMessage());
+        }
+
+        ErrorResponse errorDetails = new ErrorResponse(
+                new Date(), allMatches, request.getDescription(false).replace("uri=", ""));
+        return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex, WebRequest request) {
+        ErrorResponse errorDetails = new ErrorResponse(
+                new Date(),
+                Arrays.asList(ex.getCause().getCause().getMessage()),
+                request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.EXPECTATION_FAILED);
     }
 
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ErrorResponse> handleAllExceptions(Exception ex, WebRequest request) {
-        String message = ex.getMessage();
-        List<String> allMatches = new ArrayList<>();
-        Matcher m = Pattern.compile("Message='(.*?)'")
-                .matcher(message);
-        while (m.find()) {
-            allMatches.add(m.group(1));
-        }
-
-        ErrorResponse errorDetails = new ErrorResponse(new Date(), allMatches, request.getDescription(false));
-        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    public final ResponseEntity<ErrorResponse> handleCommonException(Exception ex, WebRequest request) {
+        ErrorResponse error = new ErrorResponse(new Date(), Arrays.asList(ex.getMessage()), request.getDescription(false));
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
+//    @Override
+//    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+//        ErrorResponse error = new ErrorResponse(new Date(), Arrays.asList(ex.getMessage()), request.getDescription(false));
+//        return new ResponseEntity<>(ex.getLocalizedMessage(), status);
+//    }
 }

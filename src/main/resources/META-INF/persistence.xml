@@ -3,9 +3,23 @@
 
     <persistence-unit name="NewPersistenceUnit">
         <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+        <class>com.example.stackoverflow.model.Account</class>
+        <class>com.example.stackoverflow.model.AccountBadge</class>
+        <class>com.example.stackoverflow.model.Answer</class>
+        <class>com.example.stackoverflow.model.Badge</class>
+        <class>com.example.stackoverflow.model.Bounty</class>
+        <class>com.example.stackoverflow.model.Comment</class>
+        <class>com.example.stackoverflow.model.Question</class>
+        <class>com.example.stackoverflow.model.QuestionTag</class>
+        <class>com.example.stackoverflow.model.Role</class>
+        <class>com.example.stackoverflow.model.RoleUrl</class>
+        <class>com.example.stackoverflow.model.StatusOfAccount</class>
+        <class>com.example.stackoverflow.model.StatusOfQuestion</class>
+        <class>com.example.stackoverflow.model.Tag</class>
+        <class>com.example.stackoverflow.model.Url</class>
         <properties>
-            <property name="openjpa.ConnectionURL" value=""/>
-            <property name="openjpa.ConnectionDriverName" value=""/>
+            <property name="openjpa.ConnectionURL" value="jdbc:postgresql://localhost:5432/stack3"/>
+            <property name="openjpa.ConnectionDriverName" value="org.postgresql.Driver"/>
             <property name="openjpa.ConnectionUserName" value=""/>
             <property name="openjpa.ConnectionPassword" value=""/>
             <property name="openjpa.Log" value="DefaultLevel=TRACE, Tool=INFO"/>
