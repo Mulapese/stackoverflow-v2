@@ -8,7 +8,7 @@ import com.example.stackoverflow.model.entity.Question;
 
 import java.sql.Timestamp;
 
-// Nên merge với entity
+// SO-01: Nên merge với entity
 public class QuestionBuilder {
     private String title;
     private String description;

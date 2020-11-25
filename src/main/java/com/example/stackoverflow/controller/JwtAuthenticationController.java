@@ -1,8 +1,8 @@
 package com.example.stackoverflow.controller;
 
+import com.example.stackoverflow.jwt.JwtRequest;
+import com.example.stackoverflow.jwt.JwtResponse;
 import com.example.stackoverflow.jwt.JwtTokenUtil;
-import com.example.stackoverflow.model.JwtRequest;
-import com.example.stackoverflow.model.JwtResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

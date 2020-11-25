@@ -1,6 +1,7 @@
-package com.example.stackoverflow.model;
+package com.example.stackoverflow.model.entity;
 
-import com.example.stackoverflow.model.entity.Question;
+import com.example.stackoverflow.model.Account;
+import com.example.stackoverflow.model.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 

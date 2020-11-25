@@ -10,14 +10,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TagServiceImplt implements CRUDService<Tag> {
+public class TagServiceImpl implements CRUDService<Tag, Tag> {
 
     @Autowired
     private TagRepository repository;
 
     @Override
-    public Tag insert(Tag tag) {
-        return repository.save(tag);
+    public int insert(String token, Tag tag) {
+        repository.save(tag);
+        return 1;
     }
 
     @Override
@@ -31,8 +32,8 @@ public class TagServiceImplt implements CRUDService<Tag> {
     }
 
     @Override
-    public Tag update(String id, Tag tag) {
-        return null;
+    public int update(String id, Tag tag) {
+        return 1;
     }
 
     @Override

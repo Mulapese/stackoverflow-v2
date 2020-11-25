@@ -40,25 +40,28 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<Account> addAccount(@RequestBody Account accountEntity) {
-        Account entity = service.insert(accountEntity);
+    public ResponseEntity<Account> addAccount(@RequestBody Account account,
+                                              @RequestHeader(name = "Authorization") String token) {
+        int result = service.insert(token, account);
 
-        if (entity == null) {
+        if (result == 0) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        return new ResponseEntity<>(entity, HttpStatus.CREATED);
+        return new ResponseEntity<>(account, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Account> updateAccount(@PathVariable("id") String id, @Valid @RequestBody Account accountEntity) {
-        Account entity = service.update(id, accountEntity);
+    public ResponseEntity<Account> updateAccount(@PathVariable("id") String id,
+                                                 @Valid @RequestBody Account account,
+                                                 @RequestHeader(name = "Authorization") String token) {
+        int result = service.update(id, account);
 
-        if (entity == null) {
+        if (result == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(entity, HttpStatus.OK);
+        return new ResponseEntity<>(account, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

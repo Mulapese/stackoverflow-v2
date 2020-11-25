@@ -10,14 +10,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CommentServiceImpl implements CRUDService<Comment> {
+public class CommentServiceImpl implements CRUDService<Comment, Comment> {
 
     @Autowired
     private CommentRepository repository;
 
     @Override
-    public Comment insert(Comment comment) {
-        return repository.save(comment);
+    public int insert(String token, Comment comment) {
+        repository.save(comment);
+        return 1;
     }
 
     @Override
@@ -31,8 +32,8 @@ public class CommentServiceImpl implements CRUDService<Comment> {
     }
 
     @Override
-    public Comment update(String id, Comment comment) {
-        return null;
+    public int update(String id, Comment comment) {
+        return 1;
     }
 
     @Override

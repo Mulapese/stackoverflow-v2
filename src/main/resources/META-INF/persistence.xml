@@ -5,7 +5,7 @@
         <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
         <class>com.example.stackoverflow.model.Account</class>
         <class>com.example.stackoverflow.model.AccountBadge</class>
-        <class>com.example.stackoverflow.model.Answer</class>
+        <class>com.example.stackoverflow.model.entity.Answer</class>
         <class>com.example.stackoverflow.model.Badge</class>
         <class>com.example.stackoverflow.model.Bounty</class>
         <class>com.example.stackoverflow.model.Comment</class>

@@ -1,6 +1,6 @@
 package com.example.stackoverflow.service.serviceImp;
 
-import com.example.stackoverflow.model.Answer;
+import com.example.stackoverflow.model.entity.Answer;
 import com.example.stackoverflow.repository.AnswerRepository;
 import com.example.stackoverflow.service.serviceInterface.CRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +10,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AnswerServiceImpl implements CRUDService<Answer> {
+public class AnswerServiceImpl implements CRUDService<Answer, Answer> {
 
     @Autowired
     private AnswerRepository repository;
 
     @Override
-    public Answer insert(Answer answer) {
+    public int insert(String token, Answer answer) {
 //        Answer answerUpdated = new Answer();
-        return repository.save(answer);
+        repository.save(answer);
+        return 1;
     }
 
     @Override
@@ -32,8 +33,8 @@ public class AnswerServiceImpl implements CRUDService<Answer> {
     }
 
     @Override
-    public Answer update(String id, Answer answer) {
-        return null;
+    public int update(String id, Answer answer) {
+        return 1;
     }
 
     @Override

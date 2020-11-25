@@ -2,7 +2,7 @@ package com.example.stackoverflow.controller;
 
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
 import com.example.stackoverflow.model.Account;
-import com.example.stackoverflow.model.Answer;
+import com.example.stackoverflow.model.entity.Answer;
 import com.example.stackoverflow.model.entity.Question;
 import com.example.stackoverflow.service.serviceImp.AccountServiceImpl;
 import com.example.stackoverflow.service.serviceImp.AnswerServiceImpl;
@@ -65,24 +65,24 @@ public class AnswerController {
         answer.setAccountByAccountId(account);
         answer.setQuestionByQuestionId(question.get());
 
-        Answer entity = service.insert(answer);
+        int result = service.insert(token, answer);
 
-        if (entity == null) {
+        if (result == 0) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        return new ResponseEntity<>(entity, HttpStatus.CREATED);
+        return new ResponseEntity<>(answer, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Answer> updateAnswer(@PathVariable("id") String id, @Valid @RequestBody Answer accountEntity) {
-        Answer entity = service.update(id, accountEntity);
+    public ResponseEntity<Answer> updateAnswer(@PathVariable("id") String id, @Valid @RequestBody Answer answer) {
+        int result = service.update(id, answer);
 
-        if (entity == null) {
+        if (result == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(entity, HttpStatus.OK);
+        return new ResponseEntity<>(answer, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

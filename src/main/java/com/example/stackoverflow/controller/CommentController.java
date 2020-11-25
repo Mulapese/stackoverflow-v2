@@ -2,8 +2,8 @@ package com.example.stackoverflow.controller;
 
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
 import com.example.stackoverflow.model.Account;
-import com.example.stackoverflow.model.Answer;
 import com.example.stackoverflow.model.Comment;
+import com.example.stackoverflow.model.entity.Answer;
 import com.example.stackoverflow.model.entity.Question;
 import com.example.stackoverflow.service.serviceImp.AccountServiceImpl;
 import com.example.stackoverflow.service.serviceImp.AnswerServiceImpl;
@@ -59,7 +59,10 @@ public class CommentController {
     }
 
     @PostMapping("/answerId/{answerId}/accountId/{accountId}")
-    public ResponseEntity<Comment> addCommentToAnswer(@PathVariable("answerId") String answerId, @PathVariable("accountId") String accountId, @RequestBody Comment comment) {
+    public ResponseEntity<Comment> addCommentToAnswer(@PathVariable("answerId") String answerId,
+                                                      @PathVariable("accountId") String accountId,
+                                                      @RequestBody Comment comment,
+                                                      @RequestHeader(name = "Authorization") String token) {
         // Check account existed
         Optional<Account> account = accountService.findById(accountId);
         if (!account.isPresent()) {
@@ -77,17 +80,20 @@ public class CommentController {
         comment.setAccountByAccountId(account.get());
         comment.setAnswerByAnswerId(answer.get());
 
-        Comment entity = service.insert(comment);
+        int result = service.insert(token, comment);
 
-        if (entity == null) {
+        if (result == 0) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        return new ResponseEntity<>(entity, HttpStatus.CREATED);
+        return new ResponseEntity<>(comment, HttpStatus.CREATED);
     }
 
     @PostMapping("/questionId/{questionId}/accountId/{accountId}")
-    public ResponseEntity<Comment> addCommentToQuestion(@PathVariable("questionId") String questionId, @PathVariable("accountId") String accountId, @RequestBody Comment comment) {
+    public ResponseEntity<Comment> addCommentToQuestion(@PathVariable("questionId") String questionId,
+                                                        @PathVariable("accountId") String accountId,
+                                                        @RequestBody Comment comment,
+                                                        @RequestHeader(name = "Authorization") String token) {
         // Check account existed
         Optional<Account> account = accountService.findById(accountId);
         if (!account.isPresent()) {
@@ -105,24 +111,24 @@ public class CommentController {
         comment.setAccountByAccountId(account.get());
         comment.setQuestionByQuestionId(question.get());
 
-        Comment entity = service.insert(comment);
+        int result = service.insert(token, comment);
 
-        if (entity == null) {
+        if (result == 0) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        return new ResponseEntity<>(entity, HttpStatus.CREATED);
+        return new ResponseEntity<>(comment, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Comment> updateComment(@PathVariable("id") String id, @Valid @RequestBody Comment accountEntity) {
-        Comment entity = service.update(id, accountEntity);
+    public ResponseEntity<Comment> updateComment(@PathVariable("id") String id, @Valid @RequestBody Comment comment) {
+        int result = service.update(id, comment);
 
-        if (entity == null) {
+        if (result == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(entity, HttpStatus.OK);
+        return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

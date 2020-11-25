@@ -27,7 +27,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class AccountServiceImpl implements CRUDService<Account>, AccountService, UserDetailsService {
+public class AccountServiceImpl implements CRUDService<Account, Account>, AccountService, UserDetailsService {
 
     @Autowired
     private AccountRepository repository;
@@ -37,22 +37,24 @@ public class AccountServiceImpl implements CRUDService<Account>, AccountService,
 
     // Not validate yet
     @Override
-    public Account insert(Account accountEntity) {
-        String id = String.valueOf(accountEntity.getAccountId());
+    public int insert(String token, Account account) {
+        String id = String.valueOf(account.getAccountId());
 
         if (findById(id).isPresent()) {
-            return null;
+            return 0;
         }
 
-        if (accountEntity.getCreatedTime() == null) {
-            accountEntity.setCreatedTime(new Timestamp(System.currentTimeMillis()));
+        if (account.getCreatedTime() == null) {
+            account.setCreatedTime(new Timestamp(System.currentTimeMillis()));
         }
-        return repository.save(accountEntity);
+
+        repository.save(account);
+        return 1;
     }
 
     @Override
     public List<Account> findAll() {
-        return repository.findAll();
+        return repository.findByOrderByAccountIdDesc();
     }
 
     @Override
@@ -61,31 +63,32 @@ public class AccountServiceImpl implements CRUDService<Account>, AccountService,
     }
 
     @Override
-    public Account update(String id, Account accountEntity) {
+    public int update(String id, Account account) {
 
         if (!findById(id).isPresent()) {
             throw new RecordNotFoundException(ErrorMessage.notExist("accountId"));
         }
-        if (!id.equals(accountEntity.getAccountId() + "")) {
+        if (!id.equals(account.getAccountId() + "")) {
             throw new WrongHeaderInfoException(ErrorMessage.notMatch("accountId"));
         }
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
-        Set<ConstraintViolation<Account>> violations = validator.validate(accountEntity);
+        Set<ConstraintViolation<Account>> violations = validator.validate(account);
         for (ConstraintViolation<Account> violation : violations) {
             System.out.println(violation.getMessage());
         }
-        accountEntity.setAccountId(Integer.parseInt(id));
-        return repository.save(accountEntity);
+        account.setAccountId(Integer.parseInt(id));
+        repository.save(account);
+        return 1;
     }
 
     @Override
     public Optional<Account> delete(String id) {
         int idInt = Integer.parseInt(id);
-        Optional<Account> accountEntity = repository.findById(idInt);
+        Optional<Account> account = repository.findById(idInt);
         repository.deleteById(idInt);
-        return accountEntity;
+        return account;
     }
 
     @Override

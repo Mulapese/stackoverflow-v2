@@ -1,7 +1,7 @@
 package com.example.stackoverflow.controller;
 
 import com.example.stackoverflow.model.Tag;
-import com.example.stackoverflow.service.serviceImp.TagServiceImplt;
+import com.example.stackoverflow.service.serviceImp.TagServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequestMapping("/api/tags")
 public class TagController {
     @Autowired
-    private TagServiceImplt service;
+    private TagServiceImpl service;
 
     @GetMapping
     public ResponseEntity<List<Tag>> getTags() {
@@ -39,26 +39,26 @@ public class TagController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping
-    public ResponseEntity<Tag> addTag(@RequestBody Tag tag) {
-        Tag entity = service.insert(tag);
-
-        if (entity == null) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        return new ResponseEntity<>(entity, HttpStatus.CREATED);
-    }
+//    @PostMapping
+//    public ResponseEntity<Tag> addTag(@RequestBody Tag tag) {
+//        int result = service.insert(tag);
+//
+//        if (result == 0) {
+//            return new ResponseEntity<>(HttpStatus.CONFLICT);
+//        }
+//
+//        return new ResponseEntity<>(tag, HttpStatus.CREATED);
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Tag> updateTag(@PathVariable("id") String id, @Valid @RequestBody Tag tag) {
-        Tag entity = service.update(id, tag);
+        int result = service.update(id, tag);
 
-        if (entity == null) {
+        if (result == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(entity, HttpStatus.OK);
+        return new ResponseEntity<>(tag, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

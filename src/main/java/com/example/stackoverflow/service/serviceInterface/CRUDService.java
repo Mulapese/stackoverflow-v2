@@ -3,10 +3,14 @@ package com.example.stackoverflow.service.serviceInterface;
 import java.util.List;
 import java.util.Optional;
 
-public interface CRUDService<T> {
-    T insert(T t);
-    List<T> findAll();
-    Optional<T> findById(String id);
-    T update(String id, T t);
-    Optional<T> delete(String id);
+public interface CRUDService<Model, Form> {
+    int insert(String token, Form t);
+
+    List<Model> findAll();
+
+    Optional<Model> findById(String id);
+
+    int update(String id, Model t);
+
+    Optional<Model> delete(String id);
 }

@@ -1,7 +1,6 @@
 package com.example.stackoverflow.common;
 
 public final class ErrorMessage {
-
     public static String notExist(String s) {
         return s + " is not exist.";
     }

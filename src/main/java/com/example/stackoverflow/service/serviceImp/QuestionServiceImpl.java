@@ -2,9 +2,11 @@ package com.example.stackoverflow.service.serviceImp;
 
 import com.example.stackoverflow.common.ErrorMessage;
 import com.example.stackoverflow.common.Utils;
+import com.example.stackoverflow.model.Account;
 import com.example.stackoverflow.model.StatusOfQuestion;
 import com.example.stackoverflow.model.builder.QuestionBuilder;
 import com.example.stackoverflow.model.entity.Question;
+import com.example.stackoverflow.model.form.QuestionForm;
 import com.example.stackoverflow.repository.QuestionRepository;
 import com.example.stackoverflow.repository.StatusOfQuestionRepository;
 import com.example.stackoverflow.service.serviceInterface.CRUDService;
@@ -16,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class QuestionServiceImpl implements CRUDService<Question>, FlagCountService {
+public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>, FlagCountService {
 
     @Autowired
     private QuestionRepository repository;
@@ -24,23 +26,30 @@ public class QuestionServiceImpl implements CRUDService<Question>, FlagCountServ
     @Autowired
     private StatusOfQuestionRepository statusOfQuestionRepository;
 
+    @Autowired
+    private AccountServiceImpl accountService;
+
     @Override
-    public Question insert(Question question) {
+    public int insert(String token, QuestionForm questionForm) {
+        Account account = accountService.getAccountFromToken(token);
+
         // Default status: 1 (Open)
+        // SO-03
         Optional<StatusOfQuestion> statusOpen = statusOfQuestionRepository.findById(1);
-        Question questionEdited = new QuestionBuilder().setTitle(question.getTitle())
-                .setDescription(question.getDescription())
+        Question questionEdited = new QuestionBuilder().setTitle(questionForm.getTitle())
+                .setDescription(questionForm.getDescription())
                 .setCreatedTime(Utils.getCurrentTimeStamp())
                 .setUpdatedTime(Utils.getCurrentTimeStamp())
-                .setAccountByAccountId(question.getAccountByAccountId())
+                .setAccountByAccountId(account)
                 .setStatusOfQuestionByStatusOfQuestionId(statusOpen.get())
                 .createQuestion();
-        return repository.save(questionEdited);
+        repository.save(questionEdited);
+        return 1;
     }
 
     @Override
     public List<Question> findAll() {
-        return repository.findAll();
+        return repository.findByOrderByQuestionIdDesc();
     }
 
     @Override
@@ -61,8 +70,8 @@ public class QuestionServiceImpl implements CRUDService<Question>, FlagCountServ
     }
 
     @Override
-    public Question update(String id, Question question) {
-        return null;
+    public int update(String id, Question question) {
+        return 1;
     }
 
     @Override

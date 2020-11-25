@@ -40,25 +40,27 @@ public class RoleController {
     }
 
     @PostMapping
-    public ResponseEntity<Role> addRole(@RequestBody Role role) {
-        Role entity = service.insert(role);
+    public ResponseEntity<Role> addRole(@RequestBody Role role,
+                                        @RequestHeader(name = "Authorization") String token) {
+        int result = service.insert(token, role);
 
-        if (entity == null) {
+        if (result == 0) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        return new ResponseEntity<>(entity, HttpStatus.CREATED);
+        return new ResponseEntity<>(role, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Role> updateRole(@PathVariable("id") String id, @Valid @RequestBody Role role) {
-        Role entity = service.update(id, role);
+    public ResponseEntity<Role> updateRole(@PathVariable("id") String id, @Valid @RequestBody Role role,
+                                           @RequestHeader(name = "Authorization") String token) {
+        int result = service.update(id, role);
 
-        if (entity == null) {
+        if (result == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(entity, HttpStatus.OK);
+        return new ResponseEntity<>(role, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

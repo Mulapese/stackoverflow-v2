@@ -1,6 +1,9 @@
 package com.example.stackoverflow.model.entity;
 
-import com.example.stackoverflow.model.*;
+import com.example.stackoverflow.model.Account;
+import com.example.stackoverflow.model.Bounty;
+import com.example.stackoverflow.model.Comment;
+import com.example.stackoverflow.model.StatusOfQuestion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +23,8 @@ public class Question {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
+    // SO-04
+    // SO-06
     private Account accountByAccountId;
 
     @Id
@@ -63,14 +68,16 @@ public class Question {
     @OneToMany(mappedBy = "questionByQuestionId")
     private Collection<Answer> answersByQuestionId;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "questionByQuestionId")
     private Collection<Comment> commentsByQuestionId;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "bounty_id", referencedColumnName = "bounty_id")
     private Bounty bountyByBountyId;
+
+    @ManyToOne
+    @JoinColumn(name = "status_of_question_id", referencedColumnName = "status_of_question_id")
+    private StatusOfQuestion statusOfQuestionByStatusOfQuestionId;
 
     public Question(String title, String description, Integer viewCount, Integer voteCloseCount,
                     Integer voteDeleteCount, Integer flagCount, Timestamp createdTime, Timestamp updatedTime,
@@ -87,10 +94,5 @@ public class Question {
         this.accountByAccountId = accountByAccountId;
         this.statusOfQuestionByStatusOfQuestionId = statusOfQuestionByStatusOfQuestionId;
     }
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "status_of_question_id", referencedColumnName = "status_of_question_id")
-    private StatusOfQuestion statusOfQuestionByStatusOfQuestionId;
 
 }

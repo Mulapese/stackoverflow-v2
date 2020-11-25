@@ -10,14 +10,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RoleServiceImpl implements CRUDService<Role> {
+public class RoleServiceImpl implements CRUDService<Role, Role> {
 
     @Autowired
     private RoleRepository repository;
 
     @Override
-    public Role insert(Role role) {
-        return repository.saveAndFlush(role);
+    public int insert(String token, Role role) {
+        repository.saveAndFlush(role);
+        return 1;
     }
 
     @Override
@@ -31,8 +32,8 @@ public class RoleServiceImpl implements CRUDService<Role> {
     }
 
     @Override
-    public Role update(String id, Role role) {
-        return null;
+    public int update(String id, Role role) {
+        return 1;
     }
 
     @Override
