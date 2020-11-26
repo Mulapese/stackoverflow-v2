@@ -3,7 +3,7 @@
 
     <persistence-unit name="NewPersistenceUnit">
 <!--        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>-->
-        <class>com.example.stackoverflow.model.Account</class>
+        <class>com.example.stackoverflow.model.entity.Account</class>
         <class>com.example.stackoverflow.model.AccountBadge</class>
         <class>com.example.stackoverflow.model.entity.Answer</class>
         <class>com.example.stackoverflow.model.Badge</class>

@@ -1,7 +1,12 @@
 package com.example.stackoverflow.interceptor;
 
+import com.example.stackoverflow.common.Constant;
+import com.example.stackoverflow.common.Utils;
+import com.example.stackoverflow.exception.exceptionType.CommonException;
+import com.example.stackoverflow.model.RoleUrl;
+import com.example.stackoverflow.model.entity.Account;
 import com.example.stackoverflow.repository.RoleUrlRepository;
-import com.example.stackoverflow.service.serviceImp.AccountServiceImpl;
+import com.example.stackoverflow.service.implement.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -9,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Component
 public class QuesInterceptor implements HandlerInterceptor {
@@ -25,6 +31,12 @@ public class QuesInterceptor implements HandlerInterceptor {
 //        String method = request.getMethod();
 //        String uri = request.getRequestURI();
 //
+//        List<RoleUrl> roleUrls1 = roleUrlRepository.findByRoleIdAndActionAndUrl(Constant.ROLE_GUEST, method, uri);
+//        if (roleUrls1.size() > 0) {
+//            return true;
+//        } else {
+//            throw new CommonException("Sorry, you don't have permission to access this api.");
+//        }
 //        String token = request.getHeader("Authorization");
 //
 //        // If token = null => No need to authorization
@@ -47,6 +59,12 @@ public class QuesInterceptor implements HandlerInterceptor {
 //        }
         return true;
     }
+
+//    public boolean compareRequestUri(String uriDatabase, String uriRequest){
+//        String[] uriDatabasePart = uriDatabase.split("//");
+//        String[] uriRequestPart = uriRequest.split("//");
+//        return true;
+//    }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response,

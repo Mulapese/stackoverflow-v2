@@ -1,7 +1,7 @@
 package com.example.stackoverflow.controller;
 
-import com.example.stackoverflow.model.Account;
-import com.example.stackoverflow.service.serviceImp.AccountServiceImpl;
+import com.example.stackoverflow.model.entity.Account;
+import com.example.stackoverflow.service.implement.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

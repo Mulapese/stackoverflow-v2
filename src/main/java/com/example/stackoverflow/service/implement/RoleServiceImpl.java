@@ -1,8 +1,8 @@
-package com.example.stackoverflow.service.serviceImp;
+package com.example.stackoverflow.service.implement;
 
 import com.example.stackoverflow.model.Role;
 import com.example.stackoverflow.repository.RoleRepository;
-import com.example.stackoverflow.service.serviceInterface.CRUDService;
+import com.example.stackoverflow.service.serviceInterface.common.CRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

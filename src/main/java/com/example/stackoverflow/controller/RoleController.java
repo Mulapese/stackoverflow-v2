@@ -1,7 +1,7 @@
 package com.example.stackoverflow.controller;
 
 import com.example.stackoverflow.model.Role;
-import com.example.stackoverflow.service.serviceImp.RoleServiceImpl;
+import com.example.stackoverflow.service.implement.RoleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

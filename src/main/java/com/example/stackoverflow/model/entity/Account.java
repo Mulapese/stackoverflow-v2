@@ -1,5 +1,10 @@
-package com.example.stackoverflow.model;
+package com.example.stackoverflow.model.entity;
 
+import com.example.stackoverflow.model.Role;
+import com.example.stackoverflow.model.StatusOfAccount;
+import com.example.stackoverflow.model.entity.Answer;
+import com.example.stackoverflow.model.entity.Comment;
+import com.example.stackoverflow.model.entity.Question;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,12 +12,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 @Data
 @Entity
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "accountId")
 @NoArgsConstructor
 public class Account {
     @Id
@@ -55,17 +58,21 @@ public class Account {
     @JoinColumn(name = "status_of_account_id", referencedColumnName = "status_of_account_id")
     private StatusOfAccount statusOfAccountByStatusOfAccountId;
 
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "accountByAccountId")
-//    private Collection<Answer> answersByAccountId;
-//
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "accountByAccountId")
-//    private Collection<Comment> commentsByAccountId;
-//
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "accountByAccountId")
-//    private Collection<Question> questionsByAccountId;
+    @JsonIgnore
+    @OneToMany(mappedBy = "account")
+    private Collection<Answer> answers;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "account")
+    private Collection<Comment> comments;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "account")
+    private Collection<Question> questions;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "account")
+    private Collection<Vote> votes;
 
     @Override
     public String toString() {

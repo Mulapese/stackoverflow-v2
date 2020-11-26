@@ -1,7 +1,7 @@
 package com.example.stackoverflow.model.builder;
 
 import com.example.stackoverflow.common.Utils;
-import com.example.stackoverflow.model.Account;
+import com.example.stackoverflow.model.entity.Account;
 import com.example.stackoverflow.model.Bounty;
 import com.example.stackoverflow.model.StatusOfQuestion;
 import com.example.stackoverflow.model.entity.Question;

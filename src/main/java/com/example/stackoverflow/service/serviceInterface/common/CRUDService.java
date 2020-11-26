@@ -1,4 +1,4 @@
-package com.example.stackoverflow.service.serviceInterface;
+package com.example.stackoverflow.service.serviceInterface.common;
 
 import java.util.List;
 import java.util.Optional;

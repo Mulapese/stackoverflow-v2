@@ -14,7 +14,7 @@ public class QuestionView {
     private final String title;
     private final String description;
     private final Integer viewCount;
-    private final Integer voteCloseCount;
+    private final Integer voteCount;
     private final Integer voteDeleteCount;
     private final Integer flagCount;
     private final String status;
@@ -28,7 +28,7 @@ public class QuestionView {
         title = question.getTitle();
         description = question.getDescription();
         viewCount = question.getViewCount();
-        voteCloseCount = question.getVoteCloseCount();
+        voteCount = question.getVoteCount();
         voteDeleteCount = question.getVoteDeleteCount();
         flagCount = question.getFlagCount();
         status = question.getStatusOfQuestion().getDescription();

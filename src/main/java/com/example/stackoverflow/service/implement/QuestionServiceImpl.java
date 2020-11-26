@@ -1,30 +1,26 @@
-package com.example.stackoverflow.service.serviceImp;
+package com.example.stackoverflow.service.implement;
 
 import com.example.stackoverflow.common.Constant;
 import com.example.stackoverflow.common.ErrorMessage;
 import com.example.stackoverflow.common.Utils;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
-import com.example.stackoverflow.model.Account;
+import com.example.stackoverflow.model.builder.VoteBuilder;
+import com.example.stackoverflow.model.entity.*;
 import com.example.stackoverflow.model.StatusOfQuestion;
 import com.example.stackoverflow.model.builder.AnswerBuilder;
 import com.example.stackoverflow.model.builder.CommentBuilder;
 import com.example.stackoverflow.model.builder.QuestionBuilder;
-import com.example.stackoverflow.model.entity.Answer;
-import com.example.stackoverflow.model.entity.Comment;
-import com.example.stackoverflow.model.entity.Question;
 import com.example.stackoverflow.model.form.AnswerForm;
 import com.example.stackoverflow.model.form.CommentForm;
 import com.example.stackoverflow.model.form.QuestionForm;
-import com.example.stackoverflow.repository.AnswerRepository;
-import com.example.stackoverflow.repository.CommentRepository;
-import com.example.stackoverflow.repository.QuestionRepository;
-import com.example.stackoverflow.repository.StatusOfQuestionRepository;
-import com.example.stackoverflow.service.serviceInterface.CRUDService;
-import com.example.stackoverflow.service.serviceInterface.FlagCountService;
+import com.example.stackoverflow.repository.*;
+import com.example.stackoverflow.service.serviceInterface.common.CRUDService;
+import com.example.stackoverflow.service.serviceInterface.common.FlagCountService;
 import com.example.stackoverflow.service.serviceInterface.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.temporal.UnsupportedTemporalTypeException;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +38,9 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
 
     @Autowired
     private StatusOfQuestionRepository statusOfQuestionRepository;
+
+    @Autowired
+    private VoteRepository voteRepository;
 
     // SO-08
     @Autowired
@@ -199,6 +198,39 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
         question.setStatusOfQuestion(statusOfQuestion);
         questionRepository.save(question);
         return 0;
+    }
+
+    @Override
+    public int setVoteOfQuestion(String token, String score, String questionId) {
+        int scoreInt = Utils.convertStringToInteger(score, "score", -1, 1);
+        int questionIdInt = Utils.convertStringToInteger(questionId, "question");
+        Account account = accountService.getAccountFromToken(token);
+        Question question = validateQuestion(questionId);
+        Vote currentVote = voteRepository.findByAccount_AccountIdAndQuestion_QuestionId(account.getAccountId(), questionIdInt);
+        int scoreChange = scoreInt;
+
+        Vote newVote = new VoteBuilder().setAccount(account)
+                .setQuestion(question)
+                .setScore(scoreInt)
+                .createVote();
+        if (currentVote == null) {
+            // newVote don't have Id => Insert
+            newVote.setCreatedTime(Utils.getCurrentTimeStamp());
+        } else {
+            // newVote have Id => Update
+            newVote.setVoteId(currentVote.getVoteId());
+            newVote.setUpdatedTime(Utils.getCurrentTimeStamp());
+
+            scoreChange -= currentVote.getScore();
+        }
+
+        // Save to answer table
+        question.setVoteCount(question.getVoteCount() + scoreChange);
+        questionRepository.save(question);
+        // Save to vote table
+        voteRepository.save(newVote);
+
+        return Constant.SUCCESS;
     }
 
     // If question not exist then throw exception

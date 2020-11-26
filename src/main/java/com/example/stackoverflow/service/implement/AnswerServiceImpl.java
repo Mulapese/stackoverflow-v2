@@ -1,18 +1,18 @@
-package com.example.stackoverflow.service.serviceImp;
+package com.example.stackoverflow.service.implement;
 
 import com.example.stackoverflow.common.Constant;
 import com.example.stackoverflow.common.ErrorMessage;
 import com.example.stackoverflow.common.Utils;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
-import com.example.stackoverflow.model.Account;
+import com.example.stackoverflow.model.builder.VoteBuilder;
+import com.example.stackoverflow.model.entity.*;
 import com.example.stackoverflow.model.builder.CommentBuilder;
-import com.example.stackoverflow.model.entity.Answer;
-import com.example.stackoverflow.model.entity.Comment;
 import com.example.stackoverflow.model.form.CommentForm;
 import com.example.stackoverflow.repository.AnswerRepository;
 import com.example.stackoverflow.repository.CommentRepository;
+import com.example.stackoverflow.repository.VoteRepository;
 import com.example.stackoverflow.service.serviceInterface.AnswerService;
-import com.example.stackoverflow.service.serviceInterface.CRUDService;
+import com.example.stackoverflow.service.serviceInterface.common.CRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ import java.util.Optional;
 public class AnswerServiceImpl implements CRUDService<Answer, Answer>, AnswerService {
 
     @Autowired
-    private AnswerRepository repository;
+    private AnswerRepository answerRepository;
 
     @Autowired
     private CommentRepository commentRepository;
@@ -31,21 +31,26 @@ public class AnswerServiceImpl implements CRUDService<Answer, Answer>, AnswerSer
     @Autowired
     private AccountServiceImpl accountService;
 
+    @Autowired
+    private VoteRepository voteRepository;
+
     @Override
     public int insert(String token, Answer answer) {
 //        Answer answerUpdated = new Answer();
-        repository.save(answer);
+        answerRepository.save(answer);
         return 1;
     }
 
     @Override
     public List<Answer> findAll() {
-        return repository.findAll();
+        return answerRepository.findAll();
     }
 
     @Override
-    public Optional<Answer> findById(String id) {
-        return repository.findById(Integer.parseInt(id));
+    public Optional<Answer> findById(String answerId) {
+        int answerIdInt = Utils.convertStringToInteger(answerId, "answerId");
+        Optional<Answer> answerOptional = answerRepository.findById(answerIdInt);
+        return answerOptional;
     }
 
     @Override
@@ -88,6 +93,39 @@ public class AnswerServiceImpl implements CRUDService<Answer, Answer>, AnswerSer
                 .setAnswer(answer).setText(commentForm.getText()).createComment();
         commentRepository.save(comment);
         return Constant.SUCCESS;
+    }
+
+    @Override
+    public int setVoteOfAnswer(String token, String score, String answerId) {
+        int scoreInt = Utils.convertStringToInteger(score, "score", -1, 1);
+        int answerIdInt = Utils.convertStringToInteger(answerId, "question");
+        Account account = accountService.getAccountFromToken(token);
+        Answer answer = validateAnswer(answerId);
+        Vote currentVote = voteRepository.findByAccount_AccountIdAndAnswer_AnswerId(account.getAccountId(), answerIdInt);
+        int scoreChange = scoreInt;
+
+        Vote newVote = new VoteBuilder().setAccount(account)
+                .setAnswer(answer)
+                .setScore(scoreInt)
+                .createVote();
+        if (currentVote == null) {
+            // newVote don't have Id => Insert
+            newVote.setCreatedTime(Utils.getCurrentTimeStamp());
+        } else {
+            // newVote have Id => Update
+            newVote.setVoteId(currentVote.getVoteId());
+            newVote.setUpdatedTime(Utils.getCurrentTimeStamp());
+
+            scoreChange -= currentVote.getScore();
+        }
+
+        // Save to answer table
+        answer.setVoteCount(answer.getVoteCount() + scoreChange);
+        answerRepository.save(answer);
+        // Save to vote table
+        voteRepository.save(newVote);
+
+        return 0;
     }
 
     public Answer validateAnswer(String answerId) {

@@ -11,4 +11,6 @@ public interface AnswerService {
     Comment getCommentByIdOfAnswer(String answerId, String commentId);
 
     int insertCommentToAnswer(String token, String answerId, CommentForm commentForm);
+
+    int setVoteOfAnswer(String token, String score, String answerId);
 }

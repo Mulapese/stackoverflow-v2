@@ -24,4 +24,6 @@ public interface QuestionService {
     List<Question> searchQuestionByTitleAndDescription(String content);
 
     int setStatusOfQuestion(String token, String statusId, String questionId);
+
+    int setVoteOfQuestion(String token, String score, String questionId);
 }

@@ -1,7 +1,7 @@
 package com.example.stackoverflow.controller;
 
 import com.example.stackoverflow.model.Tag;
-import com.example.stackoverflow.service.serviceImp.TagServiceImpl;
+import com.example.stackoverflow.service.implement.TagServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

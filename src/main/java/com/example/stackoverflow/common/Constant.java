@@ -9,4 +9,10 @@ public class Constant {
     public static final int QUESTION_STATUS_OPEN = 1;
     public static final int QUESTION_STATUS_CLOSED = 2;
     public static final int QUESTION_STATUS_DELETED = 3;
+
+    // Role (role.role_id)
+    public static final int ROLE_GUEST = 1;
+    public static final int ROLE_MEMBER = 2;
+    public static final int ROLE_MODERATOR = 3;
+    public static final int ROLE_ADMIN = 4;
 }

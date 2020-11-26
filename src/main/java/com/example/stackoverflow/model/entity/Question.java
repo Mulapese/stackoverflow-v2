@@ -1,7 +1,7 @@
 package com.example.stackoverflow.model.entity;
 
-import com.example.stackoverflow.model.Account;
 import com.example.stackoverflow.model.Bounty;
+import com.example.stackoverflow.model.Role;
 import com.example.stackoverflow.model.StatusOfQuestion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -16,13 +16,6 @@ import java.util.Collection;
 @NoArgsConstructor
 @Table(name = "question", schema = "public", catalog = "stack3")
 public class Question {
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
-    // SO-04
-    // SO-06
-    private Account account;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id", nullable = false)
@@ -34,7 +27,7 @@ public class Question {
 
     private Integer viewCount;
 
-    private Integer voteCloseCount;
+    private Integer voteCount;
 
     private Integer voteDeleteCount;
 
@@ -44,12 +37,11 @@ public class Question {
 
     private Timestamp updatedTime;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "question")
-    private Collection<Answer> answers;
-
-    @OneToMany(mappedBy = "question")
-    private Collection<Comment> comments;
+    @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
+    // SO-04
+    // SO-06
+    private Account account;
 
     @ManyToOne
     @JoinColumn(name = "bounty_id", referencedColumnName = "bounty_id")
@@ -59,13 +51,22 @@ public class Question {
     @JoinColumn(name = "status_of_question_id", referencedColumnName = "status_of_question_id")
     private StatusOfQuestion statusOfQuestion;
 
-    public Question(String title, String description, Integer viewCount, Integer voteCloseCount,
+    @OneToMany(mappedBy = "question")
+    private Collection<Answer> answers;
+
+    @OneToMany(mappedBy = "question")
+    private Collection<Comment> comments;
+
+    @OneToMany(mappedBy = "question")
+    private Collection<Vote> votes;
+
+    public Question(String title, String description, Integer viewCount, Integer voteCount,
                     Integer voteDeleteCount, Integer flagCount, Timestamp createdTime, Timestamp updatedTime,
                     Bounty bounty, Account account, StatusOfQuestion statusOfQuestion) {
         this.title = title;
         this.description = description;
         this.viewCount = viewCount;
-        this.voteCloseCount = voteCloseCount;
+        this.voteCount = voteCount;
         this.voteDeleteCount = voteDeleteCount;
         this.flagCount = flagCount;
         this.createdTime = createdTime;

@@ -1,9 +1,10 @@
-package com.example.stackoverflow.controller;
+package com.example.stackoverflow.jwt;
 
 import com.example.stackoverflow.jwt.JwtRequest;
 import com.example.stackoverflow.jwt.JwtResponse;
 import com.example.stackoverflow.jwt.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,6 +27,7 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Qualifier("accountServiceImpl")
     @Autowired
     private UserDetailsService jwtInMemoryUserDetailsService;
 

@@ -1,15 +1,15 @@
 package com.example.stackoverflow.controller;
 
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
-import com.example.stackoverflow.model.Account;
+import com.example.stackoverflow.model.entity.Account;
 import com.example.stackoverflow.model.entity.Answer;
 import com.example.stackoverflow.model.entity.Comment;
 import com.example.stackoverflow.model.entity.Question;
 import com.example.stackoverflow.model.form.CommentForm;
 import com.example.stackoverflow.model.view.CommentAnswerView;
-import com.example.stackoverflow.service.serviceImp.AccountServiceImpl;
-import com.example.stackoverflow.service.serviceImp.AnswerServiceImpl;
-import com.example.stackoverflow.service.serviceImp.QuestionServiceImpl;
+import com.example.stackoverflow.service.implement.AccountServiceImpl;
+import com.example.stackoverflow.service.implement.AnswerServiceImpl;
+import com.example.stackoverflow.service.implement.QuestionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -104,6 +104,15 @@ public class AnswerController {
         }
 
         return new ResponseEntity<>(answer, HttpStatus.CREATED);
+    }
+
+    @PatchMapping("{answerId}/vote/{score}")
+    public ResponseEntity<String> setVoteOfQuestion(@RequestHeader(name = "Authorization") String token,
+                                                    @PathVariable("answerId") String answerId,
+                                                    @PathVariable("score") String score){
+        int result = service.setVoteOfAnswer(token, score, answerId);
+
+        return new ResponseEntity<>("Done", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

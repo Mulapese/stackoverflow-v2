@@ -12,8 +12,8 @@ import com.example.stackoverflow.model.form.QuestionForm;
 import com.example.stackoverflow.model.view.AnswerView;
 import com.example.stackoverflow.model.view.CommentQuestionView;
 import com.example.stackoverflow.model.view.QuestionView;
-import com.example.stackoverflow.service.serviceImp.AccountServiceImpl;
-import com.example.stackoverflow.service.serviceImp.QuestionServiceImpl;
+import com.example.stackoverflow.service.implement.AccountServiceImpl;
+import com.example.stackoverflow.service.implement.QuestionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,7 +65,7 @@ public class QuestionController {
             QuestionView questionView = new QuestionView(entity.get());
             return new ResponseEntity<>(questionView, HttpStatus.OK);
         }
-        // 404
+
         throw new RecordNotFoundException(ErrorMessage.notExist("Question with id = " + questionId));
     }
 
@@ -143,6 +143,15 @@ public class QuestionController {
         }
 
         return new ResponseEntity<>(questionForm, HttpStatus.CREATED);
+    }
+
+    @PatchMapping("{questionId}/vote/{score}")
+    public ResponseEntity<String> setVoteOfQuestion(@RequestHeader(name = "Authorization") String token,
+                                                    @PathVariable("questionId") String questionId,
+                                                    @PathVariable("score") String score){
+        int result = service.setVoteOfQuestion(token, score, questionId);
+
+        return new ResponseEntity<>("Done", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

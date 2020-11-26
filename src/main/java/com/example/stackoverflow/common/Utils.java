@@ -5,6 +5,7 @@ import com.example.stackoverflow.exception.exceptionType.CommonException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.InputMismatchException;
 
 public class Utils {
     public static Timestamp getCurrentTimeStamp() {
@@ -14,6 +15,18 @@ public class Utils {
     public static Integer convertStringToInteger(String text, String message) {
         try {
             return Integer.parseInt(text);
+        } catch (NumberFormatException e) {
+            throw new CommonException(ErrorMessage.mustBeInteger(message));
+        }
+    }
+
+    public static Integer convertStringToInteger(String text, String message, int min, int max) {
+        try {
+            int number =  Integer.parseInt(text);
+            if (number < min || number > max) {
+                throw new CommonException(message + " must be in range: " + min + " => " + max);
+            }
+            return number;
         } catch (NumberFormatException e) {
             throw new CommonException(ErrorMessage.mustBeInteger(message));
         }

@@ -1,14 +1,14 @@
-package com.example.stackoverflow.service.serviceImp;
+package com.example.stackoverflow.service.implement;
 
 import com.example.stackoverflow.common.ErrorMessage;
 import com.example.stackoverflow.exception.exceptionType.AccountNotFoundException;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
 import com.example.stackoverflow.exception.exceptionType.WrongHeaderInfoException;
 import com.example.stackoverflow.jwt.JwtTokenUtil;
-import com.example.stackoverflow.model.Account;
+import com.example.stackoverflow.model.entity.Account;
 import com.example.stackoverflow.repository.AccountRepository;
 import com.example.stackoverflow.service.serviceInterface.AccountService;
-import com.example.stackoverflow.service.serviceInterface.CRUDService;
+import com.example.stackoverflow.service.serviceInterface.common.CRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
