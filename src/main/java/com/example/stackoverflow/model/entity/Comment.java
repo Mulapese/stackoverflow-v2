@@ -1,15 +1,16 @@
-package com.example.stackoverflow.model;
+package com.example.stackoverflow.model.entity;
 
-import com.example.stackoverflow.model.entity.Answer;
-import com.example.stackoverflow.model.entity.Question;
+import com.example.stackoverflow.model.Account;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,16 +44,27 @@ public class Comment {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "question_id", referencedColumnName = "question_id")
-    private Question questionByQuestionId;
+    private Question question;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "answer_id", referencedColumnName = "answer_id")
-    private Answer answerByAnswerId;
+    private Answer answer;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
-    private Account accountByAccountId;
+    private Account account;
 
+    public Comment(String text, Integer viewCount, Integer voteCount, Integer flagCount, Timestamp createdTime, Timestamp updatedTime, Question question, Answer answer, Account account) {
+        this.text = text;
+        this.viewCount = viewCount;
+        this.voteCount = voteCount;
+        this.flagCount = flagCount;
+        this.createdTime = createdTime;
+        this.updatedTime = updatedTime;
+        this.question = question;
+        this.answer = answer;
+        this.account = account;
+    }
 }

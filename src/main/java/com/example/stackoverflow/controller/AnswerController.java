@@ -3,7 +3,10 @@ package com.example.stackoverflow.controller;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
 import com.example.stackoverflow.model.Account;
 import com.example.stackoverflow.model.entity.Answer;
+import com.example.stackoverflow.model.entity.Comment;
 import com.example.stackoverflow.model.entity.Question;
+import com.example.stackoverflow.model.form.CommentForm;
+import com.example.stackoverflow.model.view.CommentAnswerView;
 import com.example.stackoverflow.service.serviceImp.AccountServiceImpl;
 import com.example.stackoverflow.service.serviceImp.AnswerServiceImpl;
 import com.example.stackoverflow.service.serviceImp.QuestionServiceImpl;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/answers")
@@ -40,8 +44,8 @@ public class AnswerController {
         return new ResponseEntity<>(entities, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Answer>> getAnswerById(@PathVariable("id") String id) {
+    @GetMapping("/{answerId}")
+    public ResponseEntity<Optional<Answer>> getAnswerById(@PathVariable("answerId") String id) {
         Optional<Answer> entity = service.findById(id);
 
         if (entity.isPresent()) {
@@ -50,6 +54,34 @@ public class AnswerController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/{answerId}/comments")
+    public ResponseEntity<List<CommentAnswerView>> getCommentsOfQuestion(@PathVariable("answerId") String answerId) {
+        List<Comment> comments = service.getCommentsOfAnswer(answerId);
+        List<CommentAnswerView> commentAnswerViews = comments.stream()
+                .map(comment -> new CommentAnswerView(comment))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(commentAnswerViews, HttpStatus.OK);
+    }
+
+    @GetMapping("/{answerId}/comments/{commentId}")
+    public ResponseEntity<CommentAnswerView> getCommentByIdOfQuestion(@PathVariable("answerId") String answerId,
+                                                                      @PathVariable("commentId") String commentId) {
+        Comment comment = service.getCommentByIdOfAnswer(answerId, commentId);
+
+        CommentAnswerView commentAnswerView = new CommentAnswerView(comment);
+        return new ResponseEntity<>(commentAnswerView, HttpStatus.OK);
+    }
+
+    @PostMapping("/{answerId}/comments")
+    public ResponseEntity<CommentForm> addCommentToQuestion(@PathVariable("answerId") String answerId,
+                                                            @Valid @RequestBody CommentForm commentForm,
+                                                            @RequestHeader(name = "Authorization") String token) {
+        service.insertCommentToAnswer(token, answerId, commentForm);
+        return new ResponseEntity<>(commentForm, HttpStatus.OK);
+    }
+
 
     @PostMapping("/questionId/{questionId}")
     public ResponseEntity<Answer> addAnswer(@PathVariable("questionId") String questionId, @RequestBody Answer answer,
@@ -62,8 +94,8 @@ public class AnswerController {
             throw new RecordNotFoundException("The questionId is not existed.");
         }
 
-        answer.setAccountByAccountId(account);
-        answer.setQuestionByQuestionId(question.get());
+        answer.setAccount(account);
+        answer.setQuestion(question.get());
 
         int result = service.insert(token, answer);
 

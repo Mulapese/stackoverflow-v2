@@ -6,6 +6,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -51,7 +52,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
-
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex, WebRequest request) {
         ErrorResponse errorDetails = new ErrorResponse(
@@ -67,9 +67,10 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-//    @Override
-//    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-//        ErrorResponse error = new ErrorResponse(new Date(), Arrays.asList(ex.getMessage()), request.getDescription(false));
-//        return new ResponseEntity<>(ex.getLocalizedMessage(), status);
-//    }
+    @Override
+    // Handle Json body request wrong format
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ErrorResponse error = new ErrorResponse(new Date(), Arrays.asList(ex.getCause().getLocalizedMessage()), request.getDescription(false));
+        return new ResponseEntity<>(error, status);
+    }
 }

@@ -8,7 +8,7 @@ import com.example.stackoverflow.model.entity.Question;
 
 import java.sql.Timestamp;
 
-// SO-01: Nên merge với entity
+// SO-01: Merge với entity?
 public class QuestionBuilder {
     private String title;
     private String description;
@@ -18,9 +18,9 @@ public class QuestionBuilder {
     private Integer flagCount = 0;
     private Timestamp createdTime = Utils.getCurrentTimeStamp();
     private Timestamp updatedTime = Utils.getCurrentTimeStamp();
-    private Bounty bountyByBountyId;
-    private Account accountByAccountId;
-    private StatusOfQuestion statusOfQuestionByStatusOfQuestionId;
+    private Bounty bounty;
+    private Account account;
+    private StatusOfQuestion statusOfQuestion;
 
     public QuestionBuilder setTitle(String title) {
         this.title = title;
@@ -62,22 +62,22 @@ public class QuestionBuilder {
         return this;
     }
 
-    public QuestionBuilder setBountyByBountyId(Bounty bountyByBountyId) {
-        this.bountyByBountyId = bountyByBountyId;
+    public QuestionBuilder setBounty(Bounty bountyByBountyId) {
+        this.bounty = bountyByBountyId;
         return this;
     }
 
-    public QuestionBuilder setAccountByAccountId(Account accountByAccountId) {
-        this.accountByAccountId = accountByAccountId;
+    public QuestionBuilder setAccount(Account accountByAccountId) {
+        this.account = accountByAccountId;
         return this;
     }
 
-    public QuestionBuilder setStatusOfQuestionByStatusOfQuestionId(StatusOfQuestion statusOfQuestionByStatusOfQuestionId) {
-        this.statusOfQuestionByStatusOfQuestionId = statusOfQuestionByStatusOfQuestionId;
+    public QuestionBuilder setStatusOfQuestion(StatusOfQuestion statusOfQuestionByStatusOfQuestionId) {
+        this.statusOfQuestion = statusOfQuestionByStatusOfQuestionId;
         return this;
     }
 
     public Question createQuestion() {
-        return new Question(title, description, viewCount, voteCloseCount, voteDeleteCount, flagCount, createdTime, updatedTime, bountyByBountyId, accountByAccountId, statusOfQuestionByStatusOfQuestionId);
+        return new Question(title, description, viewCount, voteCloseCount, voteDeleteCount, flagCount, createdTime, updatedTime, bounty, account, statusOfQuestion);
     }
 }

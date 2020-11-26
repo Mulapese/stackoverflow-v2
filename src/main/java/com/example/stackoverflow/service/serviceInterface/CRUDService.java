@@ -8,6 +8,7 @@ public interface CRUDService<Model, Form> {
 
     List<Model> findAll();
 
+    // SO-07
     Optional<Model> findById(String id);
 
     int update(String id, Model t);

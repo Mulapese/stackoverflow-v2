@@ -3,8 +3,14 @@ package com.example.stackoverflow.controller;
 import com.example.stackoverflow.common.ErrorMessage;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
 import com.example.stackoverflow.jwt.JwtTokenUtil;
+import com.example.stackoverflow.model.entity.Answer;
+import com.example.stackoverflow.model.entity.Comment;
 import com.example.stackoverflow.model.entity.Question;
+import com.example.stackoverflow.model.form.AnswerForm;
+import com.example.stackoverflow.model.form.CommentForm;
 import com.example.stackoverflow.model.form.QuestionForm;
+import com.example.stackoverflow.model.view.AnswerView;
+import com.example.stackoverflow.model.view.CommentQuestionView;
 import com.example.stackoverflow.model.view.QuestionView;
 import com.example.stackoverflow.service.serviceImp.AccountServiceImpl;
 import com.example.stackoverflow.service.serviceImp.QuestionServiceImpl;
@@ -31,8 +37,13 @@ public class QuestionController {
     private AccountServiceImpl accountService;
 
     @GetMapping
-    public ResponseEntity<List<QuestionView>> getQuestions() {
-        List<Question> questions = service.findAll();
+    public ResponseEntity<List<QuestionView>> getQuestions(@RequestParam(required = false) String content) {
+        List<Question> questions;
+        if (content != null) {
+            questions = service.searchQuestionByTitleAndDescription(content);
+        } else {
+            questions = service.findAll();
+        }
 
         if (questions.isEmpty()) {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
@@ -40,31 +51,90 @@ public class QuestionController {
 
         // Get question view list from question list
         List<QuestionView> questionViews = questions.stream()
-                .map(question -> new QuestionView(question).create())
+                .map(question -> new QuestionView(question))
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(questionViews, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<QuestionView> getQuestionById(@PathVariable("id") String id) {
-        Optional<Question> entity = service.findById(id);
+    @GetMapping("/{questionId}")
+    public ResponseEntity<QuestionView> getQuestionById(@PathVariable("questionId") String questionId) {
+        Optional<Question> entity = service.findById(questionId);
 
         if (entity.isPresent()) {
-            QuestionView questionView = new QuestionView(entity.get()).create();
+            QuestionView questionView = new QuestionView(entity.get());
             return new ResponseEntity<>(questionView, HttpStatus.OK);
         }
         // 404
-        throw new RecordNotFoundException(ErrorMessage.notExist("Question with id = " + id));
+        throw new RecordNotFoundException(ErrorMessage.notExist("Question with id = " + questionId));
+    }
+
+    @GetMapping("/{questionId}/answers")
+    public ResponseEntity<List<AnswerView>> getAnswersOfQuestion(@PathVariable("questionId") String questionId) {
+        List<Answer> answers = service.getAnswersOfQuestion(questionId);
+        List<AnswerView> answerViews = answers.stream()
+                .map(answer -> new AnswerView(answer))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(answerViews, HttpStatus.OK);
+    }
+
+    @GetMapping("/{questionId}/answers/{answerId}")
+    public ResponseEntity<AnswerView> getAnswerByIdOfQuestion(@PathVariable("questionId") String questionId,
+                                                              @PathVariable("answerId") String answerId) {
+        Answer answer = service.getAnswerByIdOfQuestion(questionId, answerId);
+
+        AnswerView answerView = new AnswerView(answer);
+        return new ResponseEntity<>(answerView, HttpStatus.OK);
+    }
+
+    @GetMapping("/{questionId}/comments")
+    public ResponseEntity<List<CommentQuestionView>> getCommentsOfQuestion(@PathVariable("questionId") String questionId) {
+        List<Comment> comments = service.getCommentsOfQuestion(questionId);
+        List<CommentQuestionView> commentQuestionViews = comments.stream()
+                .map(comment -> new CommentQuestionView(comment))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(commentQuestionViews, HttpStatus.OK);
+    }
+
+    @GetMapping("/{questionId}/comments/{commentId}")
+    public ResponseEntity<CommentQuestionView> getCommentByIdOfQuestion(@PathVariable("questionId") String questionId,
+                                                                        @PathVariable("commentId") String commentId) {
+        Comment comment = service.getCommentByIdOfQuestion(questionId, commentId);
+
+        CommentQuestionView commentQuestionView = new CommentQuestionView(comment);
+        return new ResponseEntity<>(commentQuestionView, HttpStatus.OK);
+    }
+
+    @PostMapping("/{questionId}/comments")
+    public ResponseEntity<CommentForm> addCommentToQuestion(@PathVariable("questionId") String questionId,
+                                                            @Valid @RequestBody CommentForm commentForm,
+                                                            @RequestHeader(name = "Authorization") String token) {
+        service.insertCommentToQuestion(token, questionId, commentForm);
+        return new ResponseEntity<>(commentForm, HttpStatus.OK);
+    }
+
+    @PostMapping("/{questionId}/answers")
+    public ResponseEntity<AnswerForm> addAnswerToQuestion(@PathVariable("questionId") String questionId,
+                                                          @Valid @RequestBody AnswerForm answerForm,
+                                                          @RequestHeader(name = "Authorization") String token) {
+        service.insertAnswerToQuestion(token, questionId, answerForm);
+        return new ResponseEntity<>(answerForm, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{questionId}/status/{statusId}")
+    public ResponseEntity<String> updateStatus(@RequestHeader(name = "Authorization") String token,
+                                               @PathVariable("statusId") String statusId,
+                                               @PathVariable("questionId") String questionId) {
+        service.setStatusOfQuestion(token, statusId, questionId);
+        String message = "You has changed status of question with id " + questionId + " to " + statusId;
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<QuestionForm> addQuestion(@Valid @RequestBody QuestionForm questionForm,
                                                     @RequestHeader(name = "Authorization") String token) {
-//        Account account = accountService.getAccountFromToken(token);
-//
-//        question.setAccountByAccountId(account);
-
         int result = service.insert(token, questionForm);
 
         //SO-02

@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Integer>, JpaSpecificationExecutor<Question> {
     List<Question> findByOrderByQuestionIdDesc();
+
+    List<Question> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String content1, String content2);
 }

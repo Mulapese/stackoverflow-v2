@@ -1,9 +1,9 @@
 package com.example.stackoverflow.model.entity;
 
 import com.example.stackoverflow.model.Account;
-import com.example.stackoverflow.model.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,6 +11,7 @@ import java.util.Collection;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,15 +49,27 @@ public class Answer {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "question_id", referencedColumnName = "question_id")
-    private Question questionByQuestionId;
+    private Question question;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
-    private Account accountByAccountId;
+    private Account account;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "answerByAnswerId")
-    private Collection<Comment> commentsByAnswerId;
+    @OneToMany(mappedBy = "answer")
+    private Collection<Comment> comments;
 
+    public Answer(String text, Integer viewCount, Integer voteCount, Integer flagCount, Boolean isAccepted, Timestamp createdTime, Timestamp updatedTime, Question question, Account account, Collection<Comment> comments) {
+        this.text = text;
+        this.viewCount = viewCount;
+        this.voteCount = voteCount;
+        this.flagCount = flagCount;
+        this.isAccepted = isAccepted;
+        this.createdTime = createdTime;
+        this.updatedTime = updatedTime;
+        this.question = question;
+        this.account = account;
+        this.comments = comments;
+    }
 }

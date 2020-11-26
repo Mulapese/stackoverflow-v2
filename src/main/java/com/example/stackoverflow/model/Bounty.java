@@ -31,7 +31,7 @@ public class Bounty {
     @Column(name = "updated_time", nullable = true)
     private Timestamp updatedTime;
 
-    @OneToMany(mappedBy = "bountyByBountyId")
-    private Collection<Question> questionsByBountyId;
+    @OneToMany(mappedBy = "bounty")
+    private Collection<Question> questions;
 
 }

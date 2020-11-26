@@ -1,6 +1,6 @@
 package com.example.stackoverflow.service.serviceImp;
 
-import com.example.stackoverflow.model.Comment;
+import com.example.stackoverflow.model.entity.Comment;
 import com.example.stackoverflow.repository.CommentRepository;
 import com.example.stackoverflow.service.serviceInterface.CRUDService;
 import org.springframework.beans.factory.annotation.Autowired;

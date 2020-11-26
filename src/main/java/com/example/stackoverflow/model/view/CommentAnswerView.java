@@ -5,24 +5,25 @@ import com.example.stackoverflow.model.entity.Comment;
 import lombok.Getter;
 
 @Getter
-public class CommentQuestionView {
+public class CommentAnswerView {
     private final int commentId;
     private final String email;
-    private final int questionId;
+    private final int answerId;
     private final String text;
     private final Integer viewCount;
     private final Integer voteCount;
     private final Integer flagCount;
     private final String createdTime;
 
-    public CommentQuestionView(Comment comment) {
+    public CommentAnswerView(Comment comment) {
         commentId = comment.getCommentId();
         email = comment.getAccount().getEmail();
-        questionId = comment.getQuestion().getQuestionId();
+        answerId = comment.getAnswer().getAnswerId();
         text = comment.getText();
         viewCount = comment.getViewCount();
         voteCount = comment.getVoteCount();
         flagCount = comment.getFlagCount();
         createdTime = Utils.convertTimestampToString(comment.getCreatedTime());
+
     }
 }

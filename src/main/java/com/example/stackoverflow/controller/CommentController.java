@@ -2,8 +2,8 @@ package com.example.stackoverflow.controller;
 
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
 import com.example.stackoverflow.model.Account;
-import com.example.stackoverflow.model.Comment;
 import com.example.stackoverflow.model.entity.Answer;
+import com.example.stackoverflow.model.entity.Comment;
 import com.example.stackoverflow.model.entity.Question;
 import com.example.stackoverflow.service.serviceImp.AccountServiceImpl;
 import com.example.stackoverflow.service.serviceImp.AnswerServiceImpl;
@@ -77,8 +77,8 @@ public class CommentController {
         }
 
         // Set account and answer to comment
-        comment.setAccountByAccountId(account.get());
-        comment.setAnswerByAnswerId(answer.get());
+        comment.setAccount(account.get());
+        comment.setAnswer(answer.get());
 
         int result = service.insert(token, comment);
 
@@ -108,8 +108,8 @@ public class CommentController {
         }
 
         // Set account and question to comment
-        comment.setAccountByAccountId(account.get());
-        comment.setQuestionByQuestionId(question.get());
+        comment.setAccount(account.get());
+        comment.setQuestion(question.get());
 
         int result = service.insert(token, comment);
 

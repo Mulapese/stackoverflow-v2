@@ -19,7 +19,7 @@ public class StatusOfQuestion {
     @Column(name = "description", nullable = true, length = -1)
     private String description;
 
-    @OneToMany(mappedBy = "statusOfQuestionByStatusOfQuestionId")
-    private Collection<Question> questionsByStatusOfQuestionId;
+    @OneToMany(mappedBy = "statusOfQuestion")
+    private Collection<Question> questions;
 
 }

@@ -1,36 +1,30 @@
 package com.example.stackoverflow.model.view;
 
+import com.example.stackoverflow.common.Utils;
 import com.example.stackoverflow.model.entity.Answer;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 @Getter
 public class AnswerView {
-    @JsonIgnore
-    private final Answer answer;
-
-    private int answerId;
-    private String text;
-    private Integer viewCount;
-    private Integer voteCount;
-    private Integer flagCount;
-    private Boolean isAccepted;
-    private int questionId;
-    private String email;
+    private final int answerId;
+    private final String email;
+    private final String text;
+    private final Integer viewCount;
+    private final Integer voteCount;
+    private final Integer flagCount;
+    private final Boolean isAccepted;
+    private final int questionId;
+    private final String createdTime;
 
     public AnswerView(Answer answer) {
-        this.answer = answer;
-    }
-
-    public AnswerView create() {
         answerId = answer.getAnswerId();
+        email = answer.getAccount().getEmail();
         text = answer.getText();
         viewCount = answer.getViewCount();
         voteCount = answer.getVoteCount();
         flagCount = answer.getFlagCount();
         isAccepted = answer.getIsAccepted();
-        questionId = answer.getQuestionByQuestionId().getQuestionId();
-        email = answer.getAccountByAccountId().getEmail();
-        return this;
+        questionId = answer.getQuestion().getQuestionId();
+        createdTime = Utils.convertTimestampToString(answer.getCreatedTime());
     }
 }
