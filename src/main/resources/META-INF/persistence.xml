@@ -2,7 +2,7 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
 
     <persistence-unit name="NewPersistenceUnit">
-<!--        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>-->
+        <!--        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>-->
         <class>com.example.stackoverflow.model.entity.Account</class>
         <class>com.example.stackoverflow.model.AccountBadge</class>
         <class>com.example.stackoverflow.model.entity.Answer</class>
@@ -11,12 +11,12 @@
         <class>com.example.stackoverflow.model.entity.Comment</class>
         <class>com.example.stackoverflow.model.entity.Question</class>
         <class>com.example.stackoverflow.model.QuestionTag</class>
-        <class>com.example.stackoverflow.model.Role</class>
-        <class>com.example.stackoverflow.model.RoleUrl</class>
+        <class>com.example.stackoverflow.model.entity.Role</class>
+        <class>com.example.stackoverflow.model.entity.RoleUrl</class>
         <class>com.example.stackoverflow.model.StatusOfAccount</class>
         <class>com.example.stackoverflow.model.StatusOfQuestion</class>
         <class>com.example.stackoverflow.model.Tag</class>
-        <class>com.example.stackoverflow.model.Url</class>
+        <class>com.example.stackoverflow.model.entity.Url</class>
         <!--        <class>com.example.stackoverflow.model.entity.Role</class>-->
         <!--        <class>com.example.stackoverflow.model.entity.RoleUrl</class>-->
         <!--        <class>com.example.stackoverflow.model.entity.Url</class>-->

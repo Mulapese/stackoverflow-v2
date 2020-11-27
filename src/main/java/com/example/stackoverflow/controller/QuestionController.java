@@ -2,7 +2,6 @@ package com.example.stackoverflow.controller;
 
 import com.example.stackoverflow.common.ErrorMessage;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
-import com.example.stackoverflow.jwt.JwtTokenUtil;
 import com.example.stackoverflow.model.StatusOfQuestion;
 import com.example.stackoverflow.model.entity.Answer;
 import com.example.stackoverflow.model.entity.Comment;
@@ -13,7 +12,6 @@ import com.example.stackoverflow.model.form.QuestionForm;
 import com.example.stackoverflow.model.view.AnswerView;
 import com.example.stackoverflow.model.view.CommentQuestionView;
 import com.example.stackoverflow.model.view.QuestionView;
-import com.example.stackoverflow.service.implement.AccountServiceImpl;
 import com.example.stackoverflow.service.implement.QuestionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,13 +27,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/questions")
 public class QuestionController {
-
-    @Autowired
-    JwtTokenUtil jwtTokenUtil;
     @Autowired
     private QuestionServiceImpl service;
-    @Autowired
-    private AccountServiceImpl accountService;
 
     @GetMapping
     public ResponseEntity<List<QuestionView>> getQuestions(@RequestParam(required = false) String content) {

@@ -2,8 +2,8 @@ package com.example.stackoverflow.interceptor;
 
 import com.example.stackoverflow.common.Constant;
 import com.example.stackoverflow.exception.exceptionType.MessageException;
-import com.example.stackoverflow.model.RoleUrl;
 import com.example.stackoverflow.model.entity.Account;
+import com.example.stackoverflow.model.entity.RoleUrl;
 import com.example.stackoverflow.repository.RoleUrlRepository;
 import com.example.stackoverflow.repository.UrlRepository;
 import com.example.stackoverflow.service.implement.AccountServiceImpl;

@@ -13,7 +13,7 @@ public class VoteBuilder {
     private Comment comment;
     private int score;
     private Timestamp createdTime = Utils.getCurrentTimeStamp();
-    private Timestamp updatedTime  = Utils.getCurrentTimeStamp();
+    private Timestamp updatedTime = Utils.getCurrentTimeStamp();
 
     public VoteBuilder setVoteId(int voteId) {
         this.voteId = voteId;

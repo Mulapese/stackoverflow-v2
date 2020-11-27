@@ -4,9 +4,6 @@ import com.example.stackoverflow.common.Utils;
 import com.example.stackoverflow.model.entity.Question;
 import lombok.Getter;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Getter
 public class QuestionView {
     private final int questionId;
@@ -21,6 +18,7 @@ public class QuestionView {
     private final int numberOfComment;
     private final int numberOfAnswer;
     private final String createdTime;
+    private final String updatedTime;
 
     public QuestionView(Question question) {
         email = question.getAccount().getEmail();
@@ -35,10 +33,6 @@ public class QuestionView {
         numberOfComment = question.getComments().size();
         numberOfAnswer = question.getAnswers().size();
         createdTime = Utils.convertTimestampToString(question.getCreatedTime());
-    }
-
-
-    public List<QuestionView> getQuestionViewListFromQuestionList(List<Question> questions) {
-        return questions.stream().map(question -> new QuestionView(question)).collect(Collectors.toList());
+        updatedTime = Utils.convertTimestampToString(question.getUpdatedTime());
     }
 }

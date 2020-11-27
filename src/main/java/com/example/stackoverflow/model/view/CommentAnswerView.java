@@ -14,6 +14,7 @@ public class CommentAnswerView {
     private final Integer voteCount;
     private final Integer flagCount;
     private final String createdTime;
+    private final String updatedTime;
 
     public CommentAnswerView(Comment comment) {
         commentId = comment.getCommentId();
@@ -24,6 +25,6 @@ public class CommentAnswerView {
         voteCount = comment.getVoteCount();
         flagCount = comment.getFlagCount();
         createdTime = Utils.convertTimestampToString(comment.getCreatedTime());
-
+        updatedTime = Utils.convertTimestampToString(comment.getUpdatedTime());
     }
 }

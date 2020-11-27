@@ -15,6 +15,7 @@ public class AnswerView {
     private final Boolean isAccepted;
     private final int questionId;
     private final String createdTime;
+    private final String updatedTime;
 
     public AnswerView(Answer answer) {
         answerId = answer.getAnswerId();
@@ -26,5 +27,6 @@ public class AnswerView {
         isAccepted = answer.getIsAccepted();
         questionId = answer.getQuestion().getQuestionId();
         createdTime = Utils.convertTimestampToString(answer.getCreatedTime());
+        updatedTime = Utils.convertTimestampToString(answer.getUpdatedTime());
     }
 }

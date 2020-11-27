@@ -1,4 +1,4 @@
-package com.example.stackoverflow.jwt;
+package com.example.stackoverflow.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

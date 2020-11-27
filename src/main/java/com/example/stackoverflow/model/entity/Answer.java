@@ -1,6 +1,7 @@
 package com.example.stackoverflow.model.entity;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -8,6 +9,7 @@ import java.util.Collection;
 
 @Data
 @Entity
+
 @NoArgsConstructor
 public class Answer {
     @Id

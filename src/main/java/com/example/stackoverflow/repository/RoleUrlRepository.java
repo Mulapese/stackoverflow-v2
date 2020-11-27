@@ -1,6 +1,6 @@
 package com.example.stackoverflow.repository;
 
-import com.example.stackoverflow.model.RoleUrl;
+import com.example.stackoverflow.model.entity.RoleUrl;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

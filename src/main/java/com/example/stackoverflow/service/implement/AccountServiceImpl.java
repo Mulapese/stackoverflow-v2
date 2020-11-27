@@ -1,10 +1,10 @@
 package com.example.stackoverflow.service.implement;
 
 import com.example.stackoverflow.common.ErrorMessage;
+import com.example.stackoverflow.config.JwtTokenUtil;
 import com.example.stackoverflow.exception.exceptionType.AccountNotFoundException;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
 import com.example.stackoverflow.exception.exceptionType.WrongHeaderInfoException;
-import com.example.stackoverflow.jwt.JwtTokenUtil;
 import com.example.stackoverflow.model.entity.Account;
 import com.example.stackoverflow.repository.AccountRepository;
 import com.example.stackoverflow.service.serviceInterface.AccountService;
@@ -102,7 +102,7 @@ public class AccountServiceImpl implements CRUDService<Account, Account>, Accoun
         String email = jwtTokenUtil.getUsernameFromToken(token.substring(7));
         Account account = findByEmail(email);
         if (account == null) {
-            throw new AccountNotFoundException("The email or password is wrong.");
+            throw new AccountNotFoundException("The email or password is wrong. Please authenticate again.");
         }
         return account;
     }
