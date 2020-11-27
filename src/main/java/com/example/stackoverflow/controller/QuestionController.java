@@ -148,10 +148,10 @@ public class QuestionController {
     @PatchMapping("{questionId}/vote/{score}")
     public ResponseEntity<String> setVoteOfQuestion(@RequestHeader(name = "Authorization") String token,
                                                     @PathVariable("questionId") String questionId,
-                                                    @PathVariable("score") String score){
+                                                    @PathVariable("score") String score) {
         int result = service.setVoteOfQuestion(token, score, questionId);
 
-        return new ResponseEntity<>("Done", HttpStatus.OK);
+        return new ResponseEntity<>("Vote successfully!", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

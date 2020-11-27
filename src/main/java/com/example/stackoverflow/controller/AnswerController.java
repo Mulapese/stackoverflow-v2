@@ -112,7 +112,7 @@ public class AnswerController {
                                                     @PathVariable("score") String score){
         int result = service.setVoteOfAnswer(token, score, answerId);
 
-        return new ResponseEntity<>("Done", HttpStatus.OK);
+        return new ResponseEntity<>("Vote successfully!", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

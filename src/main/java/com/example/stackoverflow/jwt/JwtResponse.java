@@ -1,18 +1,11 @@
 package com.example.stackoverflow.jwt;
 
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 // SO-05
-public class JwtResponse implements Serializable {
-
-    private static final long serialVersionUID = -8091879091924046844L;
+@Getter
+@AllArgsConstructor
+public class JwtResponse{
     private final String jwtToken;
-
-    public JwtResponse(String jwtToken) {
-        this.jwtToken = jwtToken;
-    }
-
-    public String getToken() {
-        return this.jwtToken;
-    }
 }

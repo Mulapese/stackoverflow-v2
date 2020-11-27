@@ -126,7 +126,7 @@ public class CommentController {
                                                     @PathVariable("score") String score){
         int result = service.setVoteOfComment(token, score, commentId);
 
-        return new ResponseEntity<>("Done", HttpStatus.OK);
+        return new ResponseEntity<>("Vote successfully!", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
