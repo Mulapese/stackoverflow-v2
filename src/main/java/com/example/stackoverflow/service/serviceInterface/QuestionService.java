@@ -1,5 +1,6 @@
 package com.example.stackoverflow.service.serviceInterface;
 
+import com.example.stackoverflow.model.StatusOfQuestion;
 import com.example.stackoverflow.model.entity.Answer;
 import com.example.stackoverflow.model.entity.Comment;
 import com.example.stackoverflow.model.entity.Question;
@@ -23,7 +24,7 @@ public interface QuestionService {
 
     List<Question> searchQuestionByTitleAndDescription(String content);
 
-    int setStatusOfQuestion(String token, String statusId, String questionId);
+    StatusOfQuestion setStatusOfQuestion(String token, String statusId, String questionId);
 
     int setVoteOfQuestion(String token, String score, String questionId);
 }

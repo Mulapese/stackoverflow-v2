@@ -17,6 +17,9 @@
         <class>com.example.stackoverflow.model.StatusOfQuestion</class>
         <class>com.example.stackoverflow.model.Tag</class>
         <class>com.example.stackoverflow.model.Url</class>
+        <!--        <class>com.example.stackoverflow.model.entity.Role</class>-->
+        <!--        <class>com.example.stackoverflow.model.entity.RoleUrl</class>-->
+        <!--        <class>com.example.stackoverflow.model.entity.Url</class>-->
         <properties>
             <property name="openjpa.ConnectionURL" value="jdbc:postgresql://localhost:5432/stack3"/>
             <property name="openjpa.ConnectionDriverName" value="org.postgresql.Driver"/>

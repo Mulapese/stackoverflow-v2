@@ -2,9 +2,6 @@ package com.example.stackoverflow.model.entity;
 
 import com.example.stackoverflow.model.Role;
 import com.example.stackoverflow.model.StatusOfAccount;
-import com.example.stackoverflow.model.entity.Answer;
-import com.example.stackoverflow.model.entity.Comment;
-import com.example.stackoverflow.model.entity.Question;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,7 +48,7 @@ public class Account {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
-    private Role roleByRoleId;
+    private Role role;
 
     @JsonIgnore
     @ManyToOne

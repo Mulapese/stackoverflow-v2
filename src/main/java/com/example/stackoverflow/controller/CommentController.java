@@ -123,10 +123,10 @@ public class CommentController {
     @PatchMapping("{commentId}/vote/{score}")
     public ResponseEntity<String> setVoteOfQuestion(@RequestHeader(name = "Authorization") String token,
                                                     @PathVariable("commentId") String commentId,
-                                                    @PathVariable("score") String score){
+                                                    @PathVariable("score") String score) {
         int result = service.setVoteOfComment(token, score, commentId);
 
-        return new ResponseEntity<>("Vote successfully!", HttpStatus.OK);
+        return new ResponseEntity<>("You has vote " + score + " for the comment with id = " + commentId, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

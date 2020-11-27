@@ -31,7 +31,7 @@ public class Role {
     @Column(name = "updated_time", nullable = true)
     private Timestamp updatedTime;
 
-    @OneToMany(mappedBy = "roleByRoleId")
-    private Collection<Account> accountsByRoleId;
+    @OneToMany(mappedBy = "role")
+    private Collection<Account> accounts;
 
 }

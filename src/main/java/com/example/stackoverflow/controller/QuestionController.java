@@ -3,6 +3,7 @@ package com.example.stackoverflow.controller;
 import com.example.stackoverflow.common.ErrorMessage;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
 import com.example.stackoverflow.jwt.JwtTokenUtil;
+import com.example.stackoverflow.model.StatusOfQuestion;
 import com.example.stackoverflow.model.entity.Answer;
 import com.example.stackoverflow.model.entity.Comment;
 import com.example.stackoverflow.model.entity.Question;
@@ -127,8 +128,9 @@ public class QuestionController {
     public ResponseEntity<String> updateStatus(@RequestHeader(name = "Authorization") String token,
                                                @PathVariable("statusId") String statusId,
                                                @PathVariable("questionId") String questionId) {
-        service.setStatusOfQuestion(token, statusId, questionId);
-        String message = "You has changed status of question with id " + questionId + " to " + statusId;
+        StatusOfQuestion statusOfQuestion = service.setStatusOfQuestion(token, statusId, questionId);
+        String message = "You has changed status of question with id " + questionId + " to \"" +
+                statusOfQuestion.getDescription() + "\"";
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
@@ -149,9 +151,9 @@ public class QuestionController {
     public ResponseEntity<String> setVoteOfQuestion(@RequestHeader(name = "Authorization") String token,
                                                     @PathVariable("questionId") String questionId,
                                                     @PathVariable("score") String score) {
-        int result = service.setVoteOfQuestion(token, score, questionId);
+        service.setVoteOfQuestion(token, score, questionId);
 
-        return new ResponseEntity<>("Vote successfully!", HttpStatus.OK);
+        return new ResponseEntity<>("You has vote " + score + " for the question with id = " + questionId, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

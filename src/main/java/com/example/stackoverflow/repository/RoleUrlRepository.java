@@ -15,4 +15,6 @@ public interface RoleUrlRepository extends JpaRepository<RoleUrl, Integer>, JpaS
             "from url u inner join role_url ru on u.url_id = ru.url_id\n" +
             "where ru.role_id = ?1 and u.\"action\" = ?2 and u.url = ?3 ", nativeQuery = true)
     List<RoleUrl> findByRoleIdAndActionAndUrl(int roleId, String action, String url);
+
+    List<RoleUrl> findByRoleId(int url);
 }

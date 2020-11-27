@@ -1,9 +1,7 @@
 package com.example.stackoverflow.model.entity;
 
 import com.example.stackoverflow.model.Bounty;
-import com.example.stackoverflow.model.Role;
 import com.example.stackoverflow.model.StatusOfQuestion;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

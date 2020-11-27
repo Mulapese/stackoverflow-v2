@@ -4,23 +4,22 @@ import com.example.stackoverflow.common.Constant;
 import com.example.stackoverflow.common.ErrorMessage;
 import com.example.stackoverflow.common.Utils;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
-import com.example.stackoverflow.model.builder.VoteBuilder;
-import com.example.stackoverflow.model.entity.*;
 import com.example.stackoverflow.model.StatusOfQuestion;
 import com.example.stackoverflow.model.builder.AnswerBuilder;
 import com.example.stackoverflow.model.builder.CommentBuilder;
 import com.example.stackoverflow.model.builder.QuestionBuilder;
+import com.example.stackoverflow.model.builder.VoteBuilder;
+import com.example.stackoverflow.model.entity.*;
 import com.example.stackoverflow.model.form.AnswerForm;
 import com.example.stackoverflow.model.form.CommentForm;
 import com.example.stackoverflow.model.form.QuestionForm;
 import com.example.stackoverflow.repository.*;
+import com.example.stackoverflow.service.serviceInterface.QuestionService;
 import com.example.stackoverflow.service.serviceInterface.common.CRUDService;
 import com.example.stackoverflow.service.serviceInterface.common.FlagCountService;
-import com.example.stackoverflow.service.serviceInterface.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.temporal.UnsupportedTemporalTypeException;
 import java.util.List;
 import java.util.Optional;
 
@@ -186,7 +185,7 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
     }
 
     @Override
-    public int setStatusOfQuestion(String token, String statusId, String questionId) {
+    public StatusOfQuestion setStatusOfQuestion(String token, String statusId, String questionId) {
         int statusIdInt = Utils.convertStringToInteger(statusId, "statusId");
 
         // Need validate, only the current user can edit
@@ -197,7 +196,7 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
 
         question.setStatusOfQuestion(statusOfQuestion);
         questionRepository.save(question);
-        return 0;
+        return statusOfQuestion;
     }
 
     @Override

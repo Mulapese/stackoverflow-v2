@@ -6,12 +6,12 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Component
-public class QuestionInterceptorAppConfig extends WebMvcConfigurerAdapter {
+public class AuthorizeInterceptorAppConfig extends WebMvcConfigurerAdapter {
     @Autowired
-    QuesInterceptor quesInterceptor;
+    AuthorizeInterceptor authorizeInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(quesInterceptor);
+        registry.addInterceptor(authorizeInterceptor);
     }
 }

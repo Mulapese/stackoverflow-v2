@@ -102,7 +102,7 @@ public class AccountServiceImpl implements CRUDService<Account, Account>, Accoun
         String email = jwtTokenUtil.getUsernameFromToken(token.substring(7));
         Account account = findByEmail(email);
         if (account == null) {
-            throw new AccountNotFoundException("The email or password is wrong");
+            throw new AccountNotFoundException("The email or password is wrong.");
         }
         return account;
     }
