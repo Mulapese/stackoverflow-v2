@@ -18,7 +18,7 @@ public final class ErrorMessage {
     }
 
     public static String notNull(String s) {
-        return s + " cannot be null";
+        return s + " cannot be null.";
     }
 
     public static String mustBeInteger(String s) {

@@ -1,7 +1,5 @@
 package com.example.stackoverflow.common;
 
-import com.example.stackoverflow.exception.exceptionType.MessageException;
-
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,23 +9,25 @@ public class Utils {
         return new Timestamp(System.currentTimeMillis());
     }
 
-    public static Integer convertStringToInteger(String text, String message) {
+    public static Integer convertStringToInteger(String numberString, String message) {
         try {
-            return Integer.parseInt(text);
+            return Integer.parseInt(numberString.trim());
         } catch (NumberFormatException e) {
-            throw new MessageException(ErrorMessage.mustBeInteger(message));
+            throw new NumberFormatException(ErrorMessage.mustBeInteger(message));
+        } catch (NullPointerException e) {
+            throw new NullPointerException(ErrorMessage.notNull(message));
         }
     }
 
-    public static Integer convertStringToInteger(String text, String message, int min, int max) {
+    public static Integer convertStringToInteger(String numberString, String message, int min, int max) {
         try {
-            int number = Integer.parseInt(text);
+            int number = Integer.parseInt(numberString.trim());
             if (number < min || number > max) {
-                throw new MessageException(message + " must be in range: " + min + " => " + max);
+                throw new IllegalArgumentException(message + " must be in range: " + min + " => " + max);
             }
             return number;
         } catch (NumberFormatException e) {
-            throw new MessageException(ErrorMessage.mustBeInteger(message));
+            throw new NumberFormatException(ErrorMessage.mustBeInteger(message));
         }
     }
 
