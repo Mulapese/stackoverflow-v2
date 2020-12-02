@@ -1,7 +1,9 @@
 package com.example.stackoverflow.model.entity;
 
+import com.example.stackoverflow.common.Utils;
 import com.example.stackoverflow.model.Bounty;
-import com.example.stackoverflow.model.StatusOfQuestion;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +14,8 @@ import java.util.Collection;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "question", schema = "public", catalog = "stack3")
 public class Question {
     @Id
@@ -23,17 +27,23 @@ public class Question {
 
     private String description;
 
-    private Integer viewCount;
+    @Builder.Default
+    private Integer viewCount = 0;
 
-    private Integer voteCount;
+    @Builder.Default
+    private Integer voteCount = 0;
 
-    private Integer voteDeleteCount;
+    @Builder.Default
+    private Integer voteDeleteCount = 0;
 
-    private Integer flagCount;
+    @Builder.Default
+    private Integer flagCount = 0;
 
-    private Timestamp createdTime;
+    @Builder.Default
+    private Timestamp createdTime = Utils.getCurrentTimeStamp();
 
-    private Timestamp updatedTime;
+    @Builder.Default
+    private Timestamp updatedTime = Utils.getCurrentTimeStamp();
 
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")

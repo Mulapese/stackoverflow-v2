@@ -4,9 +4,10 @@ import com.example.stackoverflow.common.Constant;
 import com.example.stackoverflow.common.ErrorMessage;
 import com.example.stackoverflow.common.Utils;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
-import com.example.stackoverflow.model.builder.VoteBuilder;
-import com.example.stackoverflow.model.entity.*;
-import com.example.stackoverflow.model.builder.CommentBuilder;
+import com.example.stackoverflow.model.entity.Account;
+import com.example.stackoverflow.model.entity.Answer;
+import com.example.stackoverflow.model.entity.Comment;
+import com.example.stackoverflow.model.entity.Vote;
 import com.example.stackoverflow.model.form.CommentForm;
 import com.example.stackoverflow.repository.AnswerRepository;
 import com.example.stackoverflow.repository.CommentRepository;
@@ -89,8 +90,8 @@ public class AnswerServiceImpl implements CRUDService<Answer, Answer>, AnswerSer
         Account account = accountService.getAccountFromToken(token);
         Answer answer = validateAnswer(answerId);
 
-        Comment comment = new CommentBuilder().setAccount(account)
-                .setAnswer(answer).setText(commentForm.getText()).createComment();
+        Comment comment = Comment.builder().account(account)
+                .answer(answer).text(commentForm.getText()).build();
         commentRepository.save(comment);
         return Constant.SUCCESS;
     }
@@ -104,10 +105,10 @@ public class AnswerServiceImpl implements CRUDService<Answer, Answer>, AnswerSer
         Vote currentVote = voteRepository.findByAccount_AccountIdAndAnswer_AnswerId(account.getAccountId(), answerIdInt);
         int scoreChange = scoreInt;
 
-        Vote newVote = new VoteBuilder().setAccount(account)
-                .setAnswer(answer)
-                .setScore(scoreInt)
-                .createVote();
+        Vote newVote = Vote.builder().account(account)
+                .answer(answer)
+                .score(scoreInt)
+                .build();
         if (currentVote == null) {
             // newVote don't have Id => Insert
             newVote.setCreatedTime(Utils.getCurrentTimeStamp());

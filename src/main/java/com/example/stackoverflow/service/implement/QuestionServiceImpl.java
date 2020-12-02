@@ -4,11 +4,6 @@ import com.example.stackoverflow.common.Constant;
 import com.example.stackoverflow.common.ErrorMessage;
 import com.example.stackoverflow.common.Utils;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
-import com.example.stackoverflow.model.StatusOfQuestion;
-import com.example.stackoverflow.model.builder.AnswerBuilder;
-import com.example.stackoverflow.model.builder.CommentBuilder;
-import com.example.stackoverflow.model.builder.QuestionBuilder;
-import com.example.stackoverflow.model.builder.VoteBuilder;
 import com.example.stackoverflow.model.entity.*;
 import com.example.stackoverflow.model.form.AnswerForm;
 import com.example.stackoverflow.model.form.CommentForm;
@@ -20,6 +15,7 @@ import com.example.stackoverflow.service.serviceInterface.common.FlagCountServic
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,11 +48,11 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
         // SO-03
         Optional<StatusOfQuestion> statusOpen = statusOfQuestionRepository.findById(Constant.QUESTION_STATUS_OPEN);
 
-        Question question = new QuestionBuilder().setTitle(questionForm.getTitle())
-                .setDescription(questionForm.getDescription())
-                .setAccount(account)
-                .setStatusOfQuestion(statusOpen.get())
-                .createQuestion();
+        Question question = Question.builder().title(questionForm.getTitle())
+                .description(questionForm.getDescription())
+                .account(account)
+                .statusOfQuestion(statusOpen.get())
+                .build();
         questionRepository.save(question);
         return Constant.SUCCESS;
     }
@@ -159,8 +155,8 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
         Account account = accountService.getAccountFromToken(token);
         Question question = validateQuestion(questionId);
 
-        Comment comment = new CommentBuilder().setAccount(account)
-                .setQuestion(question).setText(commentForm.getText()).createComment();
+        Comment comment = Comment.builder().account(account)
+                .question(question).text(commentForm.getText()).build();
         commentRepository.save(comment);
         return Constant.SUCCESS;
     }
@@ -170,8 +166,8 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
         Account account = accountService.getAccountFromToken(token);
         Question question = validateQuestion(questionId);
 
-        Answer answer = new AnswerBuilder().setAccount(account)
-                .setQuestion(question).setText(answerForm.getText()).createAnswer();
+        Answer answer = Answer.builder().account(account)
+                .question(question).text(answerForm.getText()).build();
         answerRepository.save(answer);
         return Constant.SUCCESS;
     }
@@ -200,6 +196,7 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
     }
 
     @Override
+    @Transactional
     public int setVoteOfQuestion(String token, String score, String questionId) {
         int scoreInt = Utils.convertStringToInteger(score, "score", -1, 1);
         int questionIdInt = Utils.convertStringToInteger(questionId, "question");
@@ -208,10 +205,10 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
         Vote currentVote = voteRepository.findByAccount_AccountIdAndQuestion_QuestionId(account.getAccountId(), questionIdInt);
         int scoreChange = scoreInt;
 
-        Vote newVote = new VoteBuilder().setAccount(account)
-                .setQuestion(question)
-                .setScore(scoreInt)
-                .createVote();
+        Vote newVote = Vote.builder().account(account)
+                .question(question)
+                .score(scoreInt)
+                .build();
         if (currentVote == null) {
             // newVote don't have Id => Insert
             newVote.setCreatedTime(Utils.getCurrentTimeStamp());

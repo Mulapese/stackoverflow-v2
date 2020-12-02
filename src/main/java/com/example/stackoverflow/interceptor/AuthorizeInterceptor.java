@@ -33,6 +33,11 @@ public class AuthorizeInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
+        //return true;
+        return validateRequest(request);
+    }
+
+    public boolean validateRequest(HttpServletRequest request) {
         String method = request.getMethod();
         String uri = request.getRequestURI();
 

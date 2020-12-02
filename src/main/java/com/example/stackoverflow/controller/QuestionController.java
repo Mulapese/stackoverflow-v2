@@ -2,10 +2,10 @@ package com.example.stackoverflow.controller;
 
 import com.example.stackoverflow.common.ErrorMessage;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
-import com.example.stackoverflow.model.StatusOfQuestion;
 import com.example.stackoverflow.model.entity.Answer;
 import com.example.stackoverflow.model.entity.Comment;
 import com.example.stackoverflow.model.entity.Question;
+import com.example.stackoverflow.model.entity.StatusOfQuestion;
 import com.example.stackoverflow.model.form.AnswerForm;
 import com.example.stackoverflow.model.form.CommentForm;
 import com.example.stackoverflow.model.form.QuestionForm;

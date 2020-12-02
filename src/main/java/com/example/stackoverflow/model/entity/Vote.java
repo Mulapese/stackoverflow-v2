@@ -1,5 +1,8 @@
 package com.example.stackoverflow.model.entity;
 
+import com.example.stackoverflow.common.Utils;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +12,8 @@ import java.sql.Timestamp;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Vote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,18 +38,10 @@ public class Vote {
 
     private int score;
 
-    private Timestamp createdTime;
+    @Builder.Default
+    private Timestamp createdTime = Utils.getCurrentTimeStamp();
 
-    private Timestamp updatedTime;
+    @Builder.Default
+    private Timestamp updatedTime = Utils.getCurrentTimeStamp();
 
-    public Vote(int voteId, Account account, Question question, Answer answer, Comment comment, int score, Timestamp createdTime, Timestamp updatedTime) {
-        this.voteId = voteId;
-        this.account = account;
-        this.question = question;
-        this.answer = answer;
-        this.comment = comment;
-        this.score = score;
-        this.createdTime = createdTime;
-        this.updatedTime = updatedTime;
-    }
 }

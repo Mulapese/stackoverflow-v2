@@ -9,25 +9,25 @@ public class Utils {
         return new Timestamp(System.currentTimeMillis());
     }
 
-    public static Integer convertStringToInteger(String numberString, String message) {
+    public static Integer convertStringToInteger(String numberString, String attribute) {
         try {
             return Integer.parseInt(numberString.trim());
         } catch (NumberFormatException e) {
-            throw new NumberFormatException(ErrorMessage.mustBeInteger(message));
+            throw new NumberFormatException(ErrorMessage.mustBeInteger(attribute));
         } catch (NullPointerException e) {
-            throw new NullPointerException(ErrorMessage.notNull(message));
+            throw new NullPointerException(ErrorMessage.notNull(attribute));
         }
     }
 
-    public static Integer convertStringToInteger(String numberString, String message, int min, int max) {
+    public static Integer convertStringToInteger(String numberString, String attribute, int min, int max) {
         try {
             int number = Integer.parseInt(numberString.trim());
             if (number < min || number > max) {
-                throw new IllegalArgumentException(message + " must be in range: " + min + " => " + max);
+                throw new IllegalArgumentException(attribute + " must be in range: " + min + " => " + max);
             }
             return number;
         } catch (NumberFormatException e) {
-            throw new NumberFormatException(ErrorMessage.mustBeInteger(message));
+            throw new NumberFormatException(ErrorMessage.mustBeInteger(attribute));
         }
     }
 

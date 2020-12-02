@@ -1,13 +1,16 @@
-package com.example.stackoverflow.model;
+package com.example.stackoverflow.model.entity;
 
-import com.example.stackoverflow.model.entity.Question;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
 
-@Data
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "status_of_question", schema = "public", catalog = "stack3")
 public class StatusOfQuestion {
     @Id

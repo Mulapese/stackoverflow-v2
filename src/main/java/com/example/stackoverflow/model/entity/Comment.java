@@ -1,6 +1,8 @@
 package com.example.stackoverflow.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.stackoverflow.common.Utils;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +13,8 @@ import java.util.Collection;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,15 +23,20 @@ public class Comment {
 
     private String text;
 
-    private Integer viewCount;
+    @Builder.Default
+    private Integer viewCount = 0;
 
-    private Integer voteCount;
+    @Builder.Default
+    private Integer voteCount = 0;
 
-    private Integer flagCount;
+    @Builder.Default
+    private Integer flagCount = 0;
 
-    private Timestamp createdTime;
+    @Builder.Default
+    private Timestamp createdTime = Utils.getCurrentTimeStamp();
 
-    private Timestamp updatedTime;
+    @Builder.Default
+    private Timestamp updatedTime = Utils.getCurrentTimeStamp();
 
     @ManyToOne
     @JoinColumn(name = "question_id", referencedColumnName = "question_id")

@@ -14,7 +14,7 @@
         <class>com.example.stackoverflow.model.entity.Role</class>
         <class>com.example.stackoverflow.model.entity.RoleUrl</class>
         <class>com.example.stackoverflow.model.StatusOfAccount</class>
-        <class>com.example.stackoverflow.model.StatusOfQuestion</class>
+        <class>com.example.stackoverflow.model.entity.StatusOfQuestion</class>
         <class>com.example.stackoverflow.model.Tag</class>
         <class>com.example.stackoverflow.model.entity.Url</class>
         <!--        <class>com.example.stackoverflow.model.entity.Role</class>-->

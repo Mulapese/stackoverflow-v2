@@ -4,10 +4,8 @@ import com.example.stackoverflow.common.Constant;
 import com.example.stackoverflow.common.ErrorMessage;
 import com.example.stackoverflow.common.Utils;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
-import com.example.stackoverflow.model.builder.VoteBuilder;
 import com.example.stackoverflow.model.entity.Account;
 import com.example.stackoverflow.model.entity.Comment;
-import com.example.stackoverflow.model.entity.Question;
 import com.example.stackoverflow.model.entity.Vote;
 import com.example.stackoverflow.repository.CommentRepository;
 import com.example.stackoverflow.repository.VoteRepository;
@@ -68,10 +66,10 @@ public class CommentServiceImpl implements CRUDService<Comment, Comment>, Commen
         Vote currentVote = voteRepository.findByAccount_AccountIdAndComment_CommentId(account.getAccountId(), commentIdInt);
         int scoreChange = scoreInt;
 
-        Vote newVote = new VoteBuilder().setAccount(account)
-                .setComment(comment)
-                .setScore(scoreInt)
-                .createVote();
+        Vote newVote = Vote.builder().account(account)
+                .comment(comment)
+                .score(scoreInt)
+                .build();
         if (currentVote == null) {
             // newVote don't have Id => Insert
             newVote.setCreatedTime(Utils.getCurrentTimeStamp());

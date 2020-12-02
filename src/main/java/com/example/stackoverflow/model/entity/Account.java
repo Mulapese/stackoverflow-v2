@@ -1,7 +1,10 @@
 package com.example.stackoverflow.model.entity;
 
+import com.example.stackoverflow.common.Utils;
 import com.example.stackoverflow.model.StatusOfAccount;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +16,8 @@ import java.util.Collection;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +45,8 @@ public class Account {
     @Max(value = Integer.MAX_VALUE, message = "Reputation point must be smaller than 2.147.483.687.")
     private Integer reputationPoint;
 
-    private Timestamp createdTime;
+    @Builder.Default
+    private Timestamp createdTime = Utils.getCurrentTimeStamp();
 
     private Timestamp updatedTime;
 
@@ -52,7 +58,7 @@ public class Account {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "status_of_account_id", referencedColumnName = "status_of_account_id")
-    private StatusOfAccount statusOfAccountByStatusOfAccountId;
+    private StatusOfAccount statusOfAccount;
 
     @JsonIgnore
     @OneToMany(mappedBy = "account")
