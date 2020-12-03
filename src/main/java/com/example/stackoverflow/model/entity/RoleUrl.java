@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
-@Table(name = "role_url", schema = "public", catalog = "stack3")
 @IdClass(RoleUrlPK.class)
 public class RoleUrl {
     @Id

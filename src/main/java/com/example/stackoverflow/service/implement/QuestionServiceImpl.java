@@ -109,14 +109,14 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
     }
 
     @Override
-    public List<Answer> getAnswersOfQuestion(String questionId) {
+    public List<Answer> findAnswersOfQuestion(String questionId) {
         validateQuestion(questionId);
         int questionIdInt = Utils.convertStringToInteger(questionId, "questionId");
         return answerRepository.findByQuestion_QuestionIdOrderByAnswerIdDesc(questionIdInt);
     }
 
     @Override
-    public Answer getAnswerByIdOfQuestion(String questionId, String answerId) {
+    public Answer findAnswerByIdOfQuestion(String questionId, String answerId) {
         validateQuestion(questionId);
         int questionIdInt = Utils.convertStringToInteger(questionId, "questionId");
         int answerIdInt = Utils.convertStringToInteger(answerId, "answerId");
@@ -130,14 +130,14 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
     }
 
     @Override
-    public List<Comment> getCommentsOfQuestion(String questionId) {
+    public List<Comment> findCommentsOfQuestion(String questionId) {
         validateQuestion(questionId);
         int questionIdInt = Utils.convertStringToInteger(questionId, "questionId");
         return commentRepository.findByQuestion_QuestionIdOrderByCommentIdDesc(questionIdInt);
     }
 
     @Override
-    public Comment getCommentByIdOfQuestion(String questionId, String commentId) {
+    public Comment findCommentByIdOfQuestion(String questionId, String commentId) {
         validateQuestion(questionId);
         int questionIdInt = Utils.convertStringToInteger(questionId, "questionId");
         int answerIdInt = Utils.convertStringToInteger(commentId, "commentId");
@@ -174,7 +174,7 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
 
     @Override
     public List<Question> searchQuestionByTitleAndDescription(String content) {
-        content = content.trim();
+        // The content was checked null and empty by controller
         // SO-10
         List<Question> questions = questionRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(content, content);
         return questions;

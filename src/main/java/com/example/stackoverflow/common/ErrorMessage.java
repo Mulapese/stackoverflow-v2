@@ -21,6 +21,10 @@ public final class ErrorMessage {
         return s + " cannot be null.";
     }
 
+    public static String notEmpty(String s) {
+        return s + " cannot be empty.";
+    }
+
     public static String mustBeInteger(String s) {
         return s + " must be an integer number.";
     }

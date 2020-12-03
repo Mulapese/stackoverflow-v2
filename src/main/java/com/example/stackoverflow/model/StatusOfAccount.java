@@ -8,7 +8,6 @@ import java.util.Collection;
 
 @Data
 @Entity
-@Table(name = "status_of_account", schema = "public", catalog = "stack3")
 public class StatusOfAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

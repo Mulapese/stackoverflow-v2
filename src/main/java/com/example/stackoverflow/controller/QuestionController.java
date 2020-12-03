@@ -34,8 +34,12 @@ public class QuestionController {
     public ResponseEntity<List<QuestionView>> getQuestions(@RequestParam(required = false) String content) {
         List<Question> questions;
         if (content != null) {
+            content = content.trim();
+            if (content.equals("")) {
+                throw new IllegalArgumentException(ErrorMessage.notEmpty("Content"));
+            }
             questions = service.searchQuestionByTitleAndDescription(content);
-        } else {
+        } else { // content == null when url don't have RequestParam <content>
             questions = service.findAll();
         }
 
@@ -43,6 +47,7 @@ public class QuestionController {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
         }
 
+        // Throw exception if questions == null
         // Get question view list from question list
         List<QuestionView> questionViews = questions.stream()
                 .map(question -> new QuestionView(question))
@@ -65,7 +70,7 @@ public class QuestionController {
 
     @GetMapping("/{questionId}/answers")
     public ResponseEntity<List<AnswerView>> getAnswersOfQuestion(@PathVariable("questionId") String questionId) {
-        List<Answer> answers = service.getAnswersOfQuestion(questionId);
+        List<Answer> answers = service.findAnswersOfQuestion(questionId);
         List<AnswerView> answerViews = answers.stream()
                 .map(answer -> new AnswerView(answer))
                 .collect(Collectors.toList());
@@ -76,7 +81,7 @@ public class QuestionController {
     @GetMapping("/{questionId}/answers/{answerId}")
     public ResponseEntity<AnswerView> getAnswerByIdOfQuestion(@PathVariable("questionId") String questionId,
                                                               @PathVariable("answerId") String answerId) {
-        Answer answer = service.getAnswerByIdOfQuestion(questionId, answerId);
+        Answer answer = service.findAnswerByIdOfQuestion(questionId, answerId);
 
         AnswerView answerView = new AnswerView(answer);
         return new ResponseEntity<>(answerView, HttpStatus.OK);
@@ -84,7 +89,7 @@ public class QuestionController {
 
     @GetMapping("/{questionId}/comments")
     public ResponseEntity<List<CommentQuestionView>> getCommentsOfQuestion(@PathVariable("questionId") String questionId) {
-        List<Comment> comments = service.getCommentsOfQuestion(questionId);
+        List<Comment> comments = service.findCommentsOfQuestion(questionId);
         List<CommentQuestionView> commentQuestionViews = comments.stream()
                 .map(comment -> new CommentQuestionView(comment))
                 .collect(Collectors.toList());
@@ -95,7 +100,7 @@ public class QuestionController {
     @GetMapping("/{questionId}/comments/{commentId}")
     public ResponseEntity<CommentQuestionView> getCommentByIdOfQuestion(@PathVariable("questionId") String questionId,
                                                                         @PathVariable("commentId") String commentId) {
-        Comment comment = service.getCommentByIdOfQuestion(questionId, commentId);
+        Comment comment = service.findCommentByIdOfQuestion(questionId, commentId);
 
         CommentQuestionView commentQuestionView = new CommentQuestionView(comment);
         return new ResponseEntity<>(commentQuestionView, HttpStatus.OK);

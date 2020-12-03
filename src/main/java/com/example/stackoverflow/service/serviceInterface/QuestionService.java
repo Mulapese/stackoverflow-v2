@@ -10,13 +10,13 @@ import com.example.stackoverflow.model.form.CommentForm;
 import java.util.List;
 
 public interface QuestionService {
-    List<Answer> getAnswersOfQuestion(String questionId);
+    List<Answer> findAnswersOfQuestion(String questionId);
 
-    Answer getAnswerByIdOfQuestion(String questionId, String answerId);
+    Answer findAnswerByIdOfQuestion(String questionId, String answerId);
 
-    List<Comment> getCommentsOfQuestion(String questionId);
+    List<Comment> findCommentsOfQuestion(String questionId);
 
-    Comment getCommentByIdOfQuestion(String questionId, String commentId);
+    Comment findCommentByIdOfQuestion(String questionId, String commentId);
 
     int insertCommentToQuestion(String token, String questionId, CommentForm commentForm);
 

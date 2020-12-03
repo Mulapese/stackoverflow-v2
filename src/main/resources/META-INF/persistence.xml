@@ -2,7 +2,7 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
 
     <persistence-unit name="NewPersistenceUnit">
-        <!--        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>-->
+<!--                <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>-->
         <class>com.example.stackoverflow.model.entity.Account</class>
         <class>com.example.stackoverflow.model.AccountBadge</class>
         <class>com.example.stackoverflow.model.entity.Answer</class>
@@ -17,9 +17,6 @@
         <class>com.example.stackoverflow.model.entity.StatusOfQuestion</class>
         <class>com.example.stackoverflow.model.Tag</class>
         <class>com.example.stackoverflow.model.entity.Url</class>
-        <!--        <class>com.example.stackoverflow.model.entity.Role</class>-->
-        <!--        <class>com.example.stackoverflow.model.entity.RoleUrl</class>-->
-        <!--        <class>com.example.stackoverflow.model.entity.Url</class>-->
         <properties>
             <property name="openjpa.ConnectionURL" value="jdbc:postgresql://localhost:5432/stack3"/>
             <property name="openjpa.ConnectionDriverName" value="org.postgresql.Driver"/>

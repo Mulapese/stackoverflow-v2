@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import static org.junit.Assert.assertEquals;
 
 @DisplayNameGeneration(UtilsTest.ReplaceCamelCase.class)
+public
 class UtilsTest {
     @Test
     void convertStringToInteger_PositiveNumberString_ReturnNumber() {
@@ -178,7 +179,7 @@ class UtilsTest {
         assertEquals(actualMessage, expectedMessage);
     }
 
-    static class ReplaceCamelCase extends DisplayNameGenerator.Standard {
+    public static class ReplaceCamelCase extends DisplayNameGenerator.Standard {
         public ReplaceCamelCase() {
         }
 

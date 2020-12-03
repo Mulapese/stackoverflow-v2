@@ -16,7 +16,6 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "question", schema = "public", catalog = "stack3")
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
