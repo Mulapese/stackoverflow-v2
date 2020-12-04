@@ -1,10 +1,12 @@
 package com.example.stackoverflow.service.serviceInterface.common;
 
+import com.example.stackoverflow.model.entity.Account;
+
 import java.util.List;
 import java.util.Optional;
 
 public interface CRUDService<Model, Form> {
-    int insert(String token, Form t);
+    Model insert(Account account, Form t);
 
     List<Model> findAll();
 

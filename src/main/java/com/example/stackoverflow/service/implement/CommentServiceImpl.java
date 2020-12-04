@@ -30,9 +30,8 @@ public class CommentServiceImpl implements CRUDService<Comment, Comment>, Commen
     private VoteRepository voteRepository;
 
     @Override
-    public int insert(String token, Comment comment) {
-        commentRepository.save(comment);
-        return 1;
+    public Comment insert(Account account, Comment comment) {
+        return commentRepository.save(comment);
     }
 
     @Override

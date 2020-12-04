@@ -1,5 +1,6 @@
 package com.example.stackoverflow.controller;
 
+import com.example.stackoverflow.exception.exceptionType.AccountNotFoundException;
 import com.example.stackoverflow.exception.exceptionType.RecordNotFoundException;
 import com.example.stackoverflow.model.entity.Account;
 import com.example.stackoverflow.model.entity.Answer;
@@ -75,11 +76,17 @@ public class AnswerController {
     }
 
     @PostMapping("/{answerId}/comments")
-    public ResponseEntity<CommentForm> addCommentToQuestion(@PathVariable("answerId") String answerId,
+    public ResponseEntity<CommentAnswerView> addCommentToQuestion(@PathVariable("answerId") String answerId,
                                                             @Valid @RequestBody CommentForm commentForm,
                                                             @RequestHeader(name = "Authorization") String token) {
-        service.insertCommentToAnswer(token, answerId, commentForm);
-        return new ResponseEntity<>(commentForm, HttpStatus.OK);
+        Account account = accountService.getAccountFromToken(token);
+        if (account == null) {
+            throw new AccountNotFoundException("The email or password is wrong. Please authenticate again.");
+        }
+
+        Comment comment = service.insertCommentToAnswer(account, answerId, commentForm);
+        CommentAnswerView commentAnswerView = new CommentAnswerView(comment);
+        return new ResponseEntity<>(commentAnswerView, HttpStatus.OK);
     }
 
 
@@ -87,6 +94,9 @@ public class AnswerController {
     public ResponseEntity<Answer> addAnswer(@PathVariable("questionId") String questionId, @RequestBody Answer answer,
                                             @RequestHeader(name = "Authorization") String token) {
         Account account = accountService.getAccountFromToken(token);
+        if (account == null) {
+            throw new AccountNotFoundException("The email or password is wrong. Please authenticate again.");
+        }
 
         // Check question exist
         Optional<Question> question = questionServiceImpl.findById(questionId);
@@ -97,9 +107,9 @@ public class AnswerController {
         answer.setAccount(account);
         answer.setQuestion(question.get());
 
-        int result = service.insert(token, answer);
+        Answer result = service.insert(account, answer);
 
-        if (result == 0) {
+        if (result == null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 

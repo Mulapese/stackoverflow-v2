@@ -1,5 +1,6 @@
 package com.example.stackoverflow.service.implement;
 
+import com.example.stackoverflow.model.entity.Account;
 import com.example.stackoverflow.model.entity.Role;
 import com.example.stackoverflow.repository.RoleRepository;
 import com.example.stackoverflow.service.serviceInterface.common.CRUDService;
@@ -16,9 +17,8 @@ public class RoleServiceImpl implements CRUDService<Role, Role> {
     private RoleRepository repository;
 
     @Override
-    public int insert(String token, Role role) {
-        repository.saveAndFlush(role);
-        return 1;
+    public Role insert(Account account, Role role) {
+        return repository.saveAndFlush(role);
     }
 
     @Override

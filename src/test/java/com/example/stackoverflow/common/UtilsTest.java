@@ -10,8 +10,7 @@ import java.lang.reflect.Method;
 import static org.junit.Assert.assertEquals;
 
 @DisplayNameGeneration(UtilsTest.ReplaceCamelCase.class)
-public
-class UtilsTest {
+public class UtilsTest {
     @Test
     void convertStringToInteger_PositiveNumberString_ReturnNumber() {
         String numberString = "1";

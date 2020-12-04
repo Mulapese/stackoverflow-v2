@@ -1,12 +1,16 @@
 package com.example.stackoverflow.model.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Data
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Url {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

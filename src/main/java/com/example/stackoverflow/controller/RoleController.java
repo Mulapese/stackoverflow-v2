@@ -1,6 +1,9 @@
 package com.example.stackoverflow.controller;
 
+import com.example.stackoverflow.exception.exceptionType.AccountNotFoundException;
+import com.example.stackoverflow.model.entity.Account;
 import com.example.stackoverflow.model.entity.Role;
+import com.example.stackoverflow.service.implement.AccountServiceImpl;
 import com.example.stackoverflow.service.implement.RoleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,9 @@ import java.util.Optional;
 public class RoleController {
     @Autowired
     private RoleServiceImpl service;
+
+    @Autowired
+    private AccountServiceImpl accountService;
 
     @GetMapping
     public ResponseEntity<List<Role>> getRoles() {
@@ -42,9 +48,14 @@ public class RoleController {
     @PostMapping
     public ResponseEntity<Role> addRole(@RequestBody Role role,
                                         @RequestHeader(name = "Authorization") String token) {
-        int result = service.insert(token, role);
 
-        if (result == 0) {
+        Account account = accountService.getAccountFromToken(token);
+        if (account == null) {
+            throw new AccountNotFoundException("The email or password is wrong. Please authenticate again.");
+        }
+        Role result = service.insert(account, role);
+
+        if (result == null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 

@@ -36,10 +36,8 @@ public class AnswerServiceImpl implements CRUDService<Answer, Answer>, AnswerSer
     private VoteRepository voteRepository;
 
     @Override
-    public int insert(String token, Answer answer) {
-//        Answer answerUpdated = new Answer();
-        answerRepository.save(answer);
-        return 1;
+    public Answer insert(Account account, Answer answer) {
+        return answerRepository.save(answer);
     }
 
     @Override
@@ -86,14 +84,13 @@ public class AnswerServiceImpl implements CRUDService<Answer, Answer>, AnswerSer
     }
 
     @Override
-    public int insertCommentToAnswer(String token, String answerId, CommentForm commentForm) {
-        Account account = accountService.getAccountFromToken(token);
+    public Comment insertCommentToAnswer(Account account, String answerId, CommentForm commentForm) {
         Answer answer = validateAnswer(answerId);
 
         Comment comment = Comment.builder().account(account)
                 .answer(answer).text(commentForm.getText()).build();
-        commentRepository.save(comment);
-        return Constant.SUCCESS;
+
+        return commentRepository.save(comment);
     }
 
     @Override

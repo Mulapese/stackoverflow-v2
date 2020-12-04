@@ -1,13 +1,17 @@
-package com.example.stackoverflow.model;
+package com.example.stackoverflow.model.entity;
 
 import com.example.stackoverflow.model.entity.Account;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
 
-@Data
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class StatusOfAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

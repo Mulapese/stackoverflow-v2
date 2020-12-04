@@ -1,5 +1,6 @@
 package com.example.stackoverflow.controller;
 
+import com.example.stackoverflow.exception.exceptionType.AccountNotFoundException;
 import com.example.stackoverflow.model.entity.Account;
 import com.example.stackoverflow.service.implement.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,12 @@ import java.util.Optional;
 @RequestMapping("api/accounts")
 public class AccountController {
     @Autowired
-    private AccountServiceImpl service;
+    private AccountServiceImpl accountService;
+
 
     @GetMapping
     public ResponseEntity<List<Account>> getAccounts() {
-        List<Account> entities = service.findAll();
+        List<Account> entities = accountService.findAll();
 
         if (entities.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -30,7 +32,7 @@ public class AccountController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Account>> getAccountById(@PathVariable("id") String id) {
-        Optional<Account> entity = service.findById(id);
+        Optional<Account> entity = accountService.findById(id);
 
         if (entity.isPresent()) {
             return new ResponseEntity<>(entity, HttpStatus.OK);
@@ -42,9 +44,9 @@ public class AccountController {
     @PostMapping
     public ResponseEntity<Account> addAccount(@RequestBody Account account,
                                               @RequestHeader(name = "Authorization") String token) {
-        int result = service.insert(token, account);
+        Account result = accountService.insert(account, account);
 
-        if (result == 0) {
+        if (result == null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
@@ -55,7 +57,7 @@ public class AccountController {
     public ResponseEntity<Account> updateAccount(@PathVariable("id") String id,
                                                  @Valid @RequestBody Account account,
                                                  @RequestHeader(name = "Authorization") String token) {
-        int result = service.update(id, account);
+        int result = accountService.update(id, account);
 
         if (result == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -66,7 +68,7 @@ public class AccountController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Optional<Account>> deleteAccount(@PathVariable("id") String id) {
-        Optional<Account> entity = service.delete(id);
+        Optional<Account> entity = accountService.delete(id);
 
         if (entity.isPresent()) {
             return new ResponseEntity<>(entity, HttpStatus.OK);

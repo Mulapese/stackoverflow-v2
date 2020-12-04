@@ -1,9 +1,6 @@
 package com.example.stackoverflow.service.serviceInterface;
 
-import com.example.stackoverflow.model.entity.Answer;
-import com.example.stackoverflow.model.entity.Comment;
-import com.example.stackoverflow.model.entity.Question;
-import com.example.stackoverflow.model.entity.StatusOfQuestion;
+import com.example.stackoverflow.model.entity.*;
 import com.example.stackoverflow.model.form.AnswerForm;
 import com.example.stackoverflow.model.form.CommentForm;
 
@@ -18,9 +15,9 @@ public interface QuestionService {
 
     Comment findCommentByIdOfQuestion(String questionId, String commentId);
 
-    int insertCommentToQuestion(String token, String questionId, CommentForm commentForm);
+    Comment insertCommentToQuestion(Account account, Question question, CommentForm commentForm);
 
-    int insertAnswerToQuestion(String token, String answerId, AnswerForm answerForm);
+    Answer insertAnswerToQuestion(Account account, Question question, AnswerForm answerForm);
 
     List<Question> searchQuestionByTitleAndDescription(String content);
 

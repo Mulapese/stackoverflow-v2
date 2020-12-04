@@ -1,7 +1,6 @@
 package com.example.stackoverflow.model.entity;
 
 import com.example.stackoverflow.common.Utils;
-import com.example.stackoverflow.model.StatusOfAccount;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

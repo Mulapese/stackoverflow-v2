@@ -13,7 +13,7 @@
         <class>com.example.stackoverflow.model.QuestionTag</class>
         <class>com.example.stackoverflow.model.entity.Role</class>
         <class>com.example.stackoverflow.model.entity.RoleUrl</class>
-        <class>com.example.stackoverflow.model.StatusOfAccount</class>
+        <class>com.example.stackoverflow.model.entity.StatusOfAccount</class>
         <class>com.example.stackoverflow.model.entity.StatusOfQuestion</class>
         <class>com.example.stackoverflow.model.Tag</class>
         <class>com.example.stackoverflow.model.entity.Url</class>

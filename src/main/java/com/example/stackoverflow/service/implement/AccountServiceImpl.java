@@ -37,19 +37,18 @@ public class AccountServiceImpl implements CRUDService<Account, Account>, Accoun
 
     // Not validate yet
     @Override
-    public int insert(String token, Account account) {
+    public Account insert(Account account, Account account1) {
         String id = String.valueOf(account.getAccountId());
 
         if (findById(id).isPresent()) {
-            return 0;
+            return null;
         }
 
         if (account.getCreatedTime() == null) {
             account.setCreatedTime(new Timestamp(System.currentTimeMillis()));
         }
 
-        repository.save(account);
-        return 1;
+        return repository.save(account);
     }
 
     @Override
@@ -101,9 +100,6 @@ public class AccountServiceImpl implements CRUDService<Account, Account>, Accoun
         // Delete first 7 character "bearer "
         String email = jwtTokenUtil.getUsernameFromToken(token.substring(7));
         Account account = findByEmail(email);
-        if (account == null) {
-            throw new AccountNotFoundException("The email or password is wrong. Please authenticate again.");
-        }
         return account;
     }
 

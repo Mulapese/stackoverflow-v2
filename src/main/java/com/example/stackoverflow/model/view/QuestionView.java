@@ -30,8 +30,16 @@ public class QuestionView {
         voteDeleteCount = question.getVoteDeleteCount();
         flagCount = question.getFlagCount();
         status = question.getStatusOfQuestion().getDescription();
-        numberOfComment = question.getComments().size();
-        numberOfAnswer = question.getAnswers().size();
+        if (question.getComments() != null) {
+            numberOfComment = question.getComments().size();
+        } else {
+            numberOfComment = 0;
+        }
+        if (question.getComments() != null){
+            numberOfAnswer = question.getAnswers().size();
+        } else {
+            numberOfAnswer = 0;
+        }
         createdTime = Utils.convertTimestampToString(question.getCreatedTime());
         updatedTime = Utils.convertTimestampToString(question.getUpdatedTime());
     }

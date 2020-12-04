@@ -43,8 +43,7 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
 
     // SO-09
     @Override
-    public int insert(String token, QuestionForm questionForm) {
-        Account account = accountService.getAccountFromToken(token);
+    public Question insert(Account account, QuestionForm questionForm) {
         // SO-03
         Optional<StatusOfQuestion> statusOpen = statusOfQuestionRepository.findById(Constant.QUESTION_STATUS_OPEN);
 
@@ -53,8 +52,7 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
                 .account(account)
                 .statusOfQuestion(statusOpen.get())
                 .build();
-        questionRepository.save(question);
-        return Constant.SUCCESS;
+        return questionRepository.save(question);
     }
 
     @Override
@@ -151,25 +149,20 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
     }
 
     @Override
-    public int insertCommentToQuestion(String token, String questionId, CommentForm commentForm) {
-        Account account = accountService.getAccountFromToken(token);
-        Question question = validateQuestion(questionId);
+        public Comment insertCommentToQuestion(Account account, Question question, CommentForm commentForm) {
 
         Comment comment = Comment.builder().account(account)
                 .question(question).text(commentForm.getText()).build();
-        commentRepository.save(comment);
-        return Constant.SUCCESS;
+
+        return commentRepository.save(comment);
     }
 
     @Override
-    public int insertAnswerToQuestion(String token, String questionId, AnswerForm answerForm) {
-        Account account = accountService.getAccountFromToken(token);
-        Question question = validateQuestion(questionId);
-
+    public Answer insertAnswerToQuestion(Account account, Question question, AnswerForm answerForm) {
         Answer answer = Answer.builder().account(account)
                 .question(question).text(answerForm.getText()).build();
         answerRepository.save(answer);
-        return Constant.SUCCESS;
+        return answerRepository.save(answer);
     }
 
     @Override
@@ -196,7 +189,7 @@ public class QuestionServiceImpl implements CRUDService<Question, QuestionForm>,
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public int setVoteOfQuestion(String token, String score, String questionId) {
         int scoreInt = Utils.convertStringToInteger(score, "score", -1, 1);
         int questionIdInt = Utils.convertStringToInteger(questionId, "question");

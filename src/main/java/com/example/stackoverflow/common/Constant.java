@@ -15,4 +15,22 @@ public class Constant {
     public static final int ROLE_MEMBER = 2;
     public static final int ROLE_MODERATOR = 3;
     public static final int ROLE_ADMIN = 4;
+
+//    public enum Status {
+//        SUCCESS,
+//        FAIL
+//    }
+//
+//    public enum StatusOfQuestion {
+//        OPEN,
+//        CLOSED,
+//        DELETED
+//    }
+//
+//    public enum Role {
+//        GUEST,
+//        MEMBER,
+//        MODERATOR,
+//        ADMIN
+//    }
 }

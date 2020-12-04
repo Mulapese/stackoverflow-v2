@@ -1,6 +1,7 @@
 package com.example.stackoverflow.service.implement;
 
 import com.example.stackoverflow.model.Tag;
+import com.example.stackoverflow.model.entity.Account;
 import com.example.stackoverflow.repository.TagRepository;
 import com.example.stackoverflow.service.serviceInterface.common.CRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,8 @@ public class TagServiceImpl implements CRUDService<Tag, Tag> {
     private TagRepository repository;
 
     @Override
-    public int insert(String token, Tag tag) {
-        repository.save(tag);
-        return 1;
+    public Tag insert(Account account, Tag tag) {
+        return repository.save(tag);
     }
 
     @Override

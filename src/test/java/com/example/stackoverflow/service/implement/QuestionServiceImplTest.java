@@ -1,6 +1,9 @@
 package com.example.stackoverflow.service.implement;
 
-import com.example.stackoverflow.model.entity.Question;
+import com.example.stackoverflow.model.entity.StatusOfAccount;
+import com.example.stackoverflow.model.entity.*;
+import com.example.stackoverflow.model.form.CommentForm;
+import com.example.stackoverflow.repository.CommentRepository;
 import com.example.stackoverflow.repository.QuestionRepository;
 import com.example.stackoverflow.repository.StatusOfQuestionRepository;
 import org.junit.Test;
@@ -14,7 +17,9 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
@@ -25,48 +30,27 @@ public class QuestionServiceImplTest {
     private QuestionRepository questionRepository;
 
     @Mock
-    private AccountServiceImpl accountService;
-
-    @Mock
-    private StatusOfQuestionRepository statusOfQuestionRepository;
+    private CommentRepository commentRepository;
 
     @InjectMocks
     private QuestionServiceImpl questionService;
 
-    @Test
-    public void insert() {
-//        Timestamp timestamp = new Timestamp(1);
-//        Account account = Account.builder().name("Name").email("Email")
-//                .password("Password").reputationPoint(1).createdTime(timestamp).updatedTime(timestamp).build();
-//        Question question = Question.builder().build();
-//        StatusOfQuestion statusOfQuestion = StatusOfQuestion.builder().statusOfQuestionId(1).description("open").build();
-//        QuestionForm questionForm = QuestionForm.builder().title("Title").description("Description").build();
-//
-//        when(accountService.getAccountFromToken(Mockito.anyString())).thenReturn(account);
-//        when(statusOfQuestionRepository.findById(Mockito.anyInt())).thenReturn(java.util.Optional.of(statusOfQuestion));
-//        when(questionRepository.save(Mockito.any())).thenReturn(question);
-//
-//        int actualResult = questionService.insert(Mockito.anyString(), Mockito.any());
-//        assert (actualResult == 1);
-    }
-
     // n/v : No value, only for make sure the function is tested
     @Test
     public void findAll_HasThreeQuestions_SizeThree() {
-//        List<Question> list = new ArrayList<>();
-//        Question question1 = Question.builder().build();
-//        Question question2 = Question.builder().build();
-//        Question question3 = Question.builder().build();
-//
-//        list.add(question1);
-//        list.add(question2);
-//        list.add(question3);
-//
-//        given(questionRepository.findByOrderByQuestionIdDesc()).willReturn(list);
+        List<Question> list = new ArrayList<>();
+        Question question1 = Question.builder().build();
+        Question question2 = Question.builder().build();
+        Question question3 = Question.builder().build();
+
+        list.add(question1);
+        list.add(question2);
+        list.add(question3);
+
+        given(questionRepository.findByOrderByQuestionIdDesc()).willReturn(list);
 
         List<Question> questions = questionService.findAll();
         assert (questions.size() == 3);
-//        verify(questionRepository, times(1)).findByOrderByQuestionIdDesc();
     }
 
     // n/v
@@ -83,4 +67,27 @@ public class QuestionServiceImplTest {
         List<Question> questions = questionService.searchQuestionByTitleAndDescription(content);
         assert (questions.size() == 1);
     }
+
+    // n/v
+    @Test
+    public void insertCommentToQuestion() {
+        // Setup account
+        Role role = Role.builder().roleId(1).name("Admin").build();
+        StatusOfAccount statusOfAccount = StatusOfAccount.builder().statusOfAccountId(1).description("open").build();
+        String email = "test@gmail.com";
+        Account account = Account.builder().accountId(1).role(role).statusOfAccount(statusOfAccount).email(email).build();
+
+        // Setup question
+        StatusOfQuestion statusOfQuestion = StatusOfQuestion.builder().statusOfQuestionId(1).build();
+        Question question = Question.builder().questionId(1).statusOfQuestion(statusOfQuestion)
+                .account(account).title("Title").description("Description").build();
+
+        // Setup CommentForm
+        CommentForm commentForm = CommentForm.builder().text("text").build();
+
+        questionService.insertCommentToQuestion(account, question, commentForm);
+
+        verify(commentRepository).save(any());
+    }
+
 }

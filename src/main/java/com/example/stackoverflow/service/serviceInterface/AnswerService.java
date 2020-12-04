@@ -1,5 +1,6 @@
 package com.example.stackoverflow.service.serviceInterface;
 
+import com.example.stackoverflow.model.entity.Account;
 import com.example.stackoverflow.model.entity.Comment;
 import com.example.stackoverflow.model.form.CommentForm;
 
@@ -10,7 +11,7 @@ public interface AnswerService {
 
     Comment getCommentByIdOfAnswer(String answerId, String commentId);
 
-    int insertCommentToAnswer(String token, String answerId, CommentForm commentForm);
+    Comment insertCommentToAnswer(Account account, String answerId, CommentForm commentForm);
 
     int setVoteOfAnswer(String token, String score, String answerId);
 }
